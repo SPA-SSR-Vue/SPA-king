@@ -4,12 +4,16 @@
   "description": "",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon ./apps/main.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.0.0-alpha.7"
+    "bcryptjs": "^2.4.3",
+    "express": "^5.0.0-alpha.7",
+    "mongoose": "^5.9.1",
+    "require-all": "^3.0.0"
   }
 }
