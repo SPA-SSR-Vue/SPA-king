@@ -5,7 +5,7 @@ const skillSchema = new mongoose.Schema({
   description: { type: String },
   coolDown: { type: String },
   expend: { type: String },
-  category: { type: mongoose.SchemaTypes.ObjectId, ref: 'Category' }
+  hero: { type: mongoose.SchemaTypes.ObjectId, ref: 'Hero' }
 })
 
 module.exports = mongoose.model('Skill', skillSchema, 'skills')

@@ -10,27 +10,26 @@ const heroSchema = new mongoose.Schema({
     attack: { type: Number },
     survive: { type: Number },
   },
-  skills: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Skill' }],
-  skillSuggestion: {
-    major: { type: mongoose.SchemaTypes.ObjectId, ref: 'Skill' },
-    minor: { type: mongoose.SchemaTypes.ObjectId, ref: 'Skill' },
-    summonerSkills: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Skill' }],
-  },
+  // skillSuggestion: {
+  //   major: { type: mongoose.SchemaTypes.ObjectId, ref: 'Skill' },
+  //   minor: { type: mongoose.SchemaTypes.ObjectId, ref: 'Skill' },
+  //   summonerSkills: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Skill' }],
+  // },
   items1: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Item' }],
   items2: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Item' }],
-  epigraph: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Epigraph' }],
+  epigraphs: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Epigraph' }],
   usageTips: { type: String },
   fightingTips: { type: String },
   teamTips: { type: String },
-  partner: [{
+  partners: [{
     hero: { type: mongoose.SchemaTypes.ObjectId, ref: 'Hero' },
     description: { type: String },
   }],
-  controller: [{
+  controllers: [{
     hero: { type: mongoose.SchemaTypes.ObjectId, ref: 'Hero' },
     description: { type: String },
   }],
-  restrainer: [{
+  restrainers: [{
     hero: { type: mongoose.SchemaTypes.ObjectId, ref: 'Hero' },
     description: { type: String },
   }]

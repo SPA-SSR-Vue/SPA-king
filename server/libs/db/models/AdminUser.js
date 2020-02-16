@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const adminUserSchema = new mongoose.Schema({
-  level: { type: Number },
   username: { type: String },
   password: {
     type: String,
