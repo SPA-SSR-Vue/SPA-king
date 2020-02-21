@@ -1,0 +1,17 @@
+@import "./../helpers/variable";
+
+@each $var in (left, center, right, justify) {
+  .text-#{$var} {
+    text-align: $var !important;
+  }
+}
+
+@each $colorKey, $colorValue in $colors {
+  .text-#{$colorKey} {
+    color: $colorValue;
+  }
+
+  .bg-#{$colorKey} {
+    background-color: $colorValue;
+  }
+}

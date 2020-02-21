@@ -1,0 +1,44 @@
+.d-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+$flex-jc: (
+  start: flex-start,
+  center: center,
+  end: flex-end,
+  between: space-between,
+  around: space-around,
+  evenly: space-evenly
+);
+
+$flex-ai: (
+  start: flex-start,
+  center: center,
+  end: flex-end,
+  stretch: stretch
+);
+
+@each $jcKey, $jcValue in $flex-jc {
+  .jc-#{$jcKey} {
+    justify-content: $jcValue;
+  }
+}
+
+@each $aiKey, $aiValue in $flex-ai {
+  .ai-#{$aiKey} {
+    align-items: $aiValue;
+  }
+}
+

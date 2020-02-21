@@ -1,0 +1,65 @@
+$width: (
+  1: 0.1,
+  2: 0.2,
+  2-5: 0.25,
+  3: 0.333333,
+  4: 0.4,
+  5: 0.5,
+  10: 1
+);
+
+$height: (
+  5: 0.5,
+  10: 1
+);
+
+@each $wKey, $wValue in $width {
+  .w#{$wKey} {
+    width: $wValue * 100%;
+  }
+}
+
+@each $hKey, $hValue in $height {
+  .h#{$hKey} {
+    height: $hValue * 100%;
+  }
+}
+
+$spacing-types: (
+  m: margin,
+  p: padding
+);
+//5 10 12 15 17 18 20
+$spacing-sizes: (
+  0: 0,
+  5: 0.05,
+  10: 10,
+  12: 12,
+  15: 15,
+  18: 18,
+  20: 20
+);
+
+$spacing-base-size: 1rem;
+
+@each $typeKey, $typeValue in $spacing-types {
+  @each $sizeKey, $sizeValue in $spacing-sizes {
+    // m0 p0
+    .#{typeKey}#{sizeKey} {
+      #{typeValue}: $sizeValue * $spacing-base-size;
+    }
+
+    // mx0 my0
+    .#{$typeKey}x {
+      margin-left: $sizeValue * $spacing-base-size;
+      margin-right: $sizeValue * $spacing-base-size;
+    }
+
+    .#{$typeKey}y {
+      margin-top: $sizeValue * $spacing-base-size;
+      margin-bottom: $sizeValue * $spacing-base-size;
+    }
+
+    // mt0 pt0
+  }
+}

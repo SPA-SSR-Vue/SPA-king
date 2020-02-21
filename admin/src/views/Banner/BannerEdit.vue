@@ -59,7 +59,7 @@ export default {
     return {
       resource: {
         name: "banners",
-        title: "频道横幅"
+        title: "横幅"
       },
       model: {
         banner: {
