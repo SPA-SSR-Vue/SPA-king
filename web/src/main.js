@@ -4,7 +4,7 @@ import router from './router'
 
 Vue.config.productionTip = false
 
-import '@/libs/scss/style.scss'
+import '@/libs'
 
 new Vue({
   router,

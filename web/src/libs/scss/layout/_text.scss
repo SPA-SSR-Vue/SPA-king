@@ -1,5 +1,3 @@
-@import "./../helpers/variable";
-
 @each $var in (left, center, right, justify) {
   .text-#{$var} {
     text-align: $var !important;
@@ -13,5 +11,70 @@
 
   .bg-#{$colorKey} {
     background-color: $colorValue;
+  }
+}
+
+@each $vtlAiValue in (baseline, sub, top, middle, bottom, text-top, text-bottom)
+{
+  .v-#{$vtlAiValue} {
+    vertical-align: $vtlAiValue !important;
+  }
+}
+
+// text-ellipsis
+.text-ellipsis {
+  text-overflow: ellipsis;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.text-ellipsis-2 {
+  text-overflow: clip;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+// font-size  8,10,12,13,14,15,16
+$base-font-size: 1rem;
+$font-sizes: (
+  8: 0.16,
+  10: 0.2,
+  12: 0.24,
+  13: 0.26,
+  14: 0.28,
+  15: 0.3,
+  16: 0.32
+);
+
+$font-weight: (
+  100,
+  200,
+  300,
+  400,
+  500,
+  600,
+  700,
+  800,
+  900,
+  lighter,
+  // 400
+    normal,
+  // 700
+    bold,
+  bolder
+);
+
+@each $fsKey, $fsValue in $font-sizes {
+  .fs#{$fsKey} {
+    font-size: $fsValue * $base-font-size;
+  }
+}
+
+@each $fwVal in $font-weight {
+  .fw#{$fwVal} {
+    font-weight: $fwVal !important;
   }
 }

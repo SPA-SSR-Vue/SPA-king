@@ -43,8 +43,8 @@ export default {
       data: [],
       fields: {
         _id: { label: "ID", width: "240" },
-        "parent.name": { label: "上级频道", width: "" },
-        name: { label: "频道", width: "" }
+        "parent.name": { label: "上级分类", width: "" },
+        name: { label: "分类", width: "" }
       },
       pagination: {
         total: 0,

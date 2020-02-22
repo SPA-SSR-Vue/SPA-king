@@ -50,7 +50,6 @@ export default {
         pageSizes: [5, 10, 15, 20]
       },
       query: {
-        populate: "channel",
         skip: 0,
         limit: 5
       }

@@ -1,65 +1,65 @@
-$width: (
-  1: 0.1,
-  2: 0.2,
-  2-5: 0.25,
-  3: 0.333333,
-  4: 0.4,
-  5: 0.5,
-  10: 1
-);
-
-$height: (
-  5: 0.5,
-  10: 1
-);
-
-@each $wKey, $wValue in $width {
-  .w#{$wKey} {
-    width: $wValue * 100%;
+@each $whKey, $whValue in $wh-types {
+  @each $sizeKey, $sizeValue in $wh-sizes {
+    .#{$whKey}#{$sizeKey} {
+      #{$whValue}: $sizeValue * 100% !important;
+    }
   }
 }
 
-@each $hKey, $hValue in $height {
-  .h#{$hKey} {
-    height: $hValue * 100%;
-  }
+.vw100 {
+  width: 100vw !important;
 }
 
-$spacing-types: (
-  m: margin,
-  p: padding
-);
-//5 10 12 15 17 18 20
-$spacing-sizes: (
-  0: 0,
-  5: 0.05,
-  10: 10,
-  12: 12,
-  15: 15,
-  18: 18,
-  20: 20
-);
-
-$spacing-base-size: 1rem;
+.vh100 {
+  height: 100vh !important;
+}
 
 @each $typeKey, $typeValue in $spacing-types {
   @each $sizeKey, $sizeValue in $spacing-sizes {
     // m0 p0
-    .#{typeKey}#{sizeKey} {
-      #{typeValue}: $sizeValue * $spacing-base-size;
+    .#{$typeKey}#{$sizeKey} {
+      #{$typeValue}: $sizeValue * $spacing-base-size;
     }
 
     // mx0 my0
-    .#{$typeKey}x {
+    .#{$typeKey}x#{$sizeKey} {
       margin-left: $sizeValue * $spacing-base-size;
       margin-right: $sizeValue * $spacing-base-size;
     }
 
-    .#{$typeKey}y {
+    .#{$typeKey}y#{$sizeKey} {
       margin-top: $sizeValue * $spacing-base-size;
       margin-bottom: $sizeValue * $spacing-base-size;
     }
 
     // mt0 pt0
+    @each $dirKey, $dirValue in $spacing-directions {
+      .#{$typeKey}#{$dirKey}#{$sizeKey} {
+        #{$typeValue}-#{$dirValue}: $sizeValue * $spacing-base-size;
+      }
+    }
   }
+}
+
+@each $dirKey, $dirValue in $spacing-directions {
+  // bt === bt-1
+  .b#{$dirKey}1 {
+    border-#{$dirValue}: 1px solid $border-color;
+  }
+}
+
+.b {
+  border: 1px solid $border-color;
+}
+
+.br {
+  border-radius: 50%;
+}
+
+.box-shadow {
+  box-shadow: 10px 10px 5px $box-shadow-color;
+}
+
+.text-shadow {
+  text-shadow: 5px 5px 2px $text-shadow-color;
 }

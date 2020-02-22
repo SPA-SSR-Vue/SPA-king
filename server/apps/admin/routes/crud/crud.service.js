@@ -1,5 +1,6 @@
 module.exports = {
   async create(req, res) {
+    console.log(req.body);
     await req.Model.create(req.body)
     res.send({
       message: '创建成功'
