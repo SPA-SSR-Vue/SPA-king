@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <header class="d-flex ai-center sprite sprite-top-bg">
+    <header class="d-flex ai-center sprite sprite-top-bg sticky">
       <router-link to="/" class="sprite sprite-logo ml18 mr12"></router-link>
       <div class="text-white flex-1">
         <p class="fs13">王者荣耀</p>

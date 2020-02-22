@@ -23,13 +23,13 @@
 
     // mx0 my0
     .#{$typeKey}x#{$sizeKey} {
-      margin-left: $sizeValue * $spacing-base-size;
-      margin-right: $sizeValue * $spacing-base-size;
+      #{$typeValue}-left: $sizeValue * $spacing-base-size;
+      #{$typeValue}-right: $sizeValue * $spacing-base-size;
     }
 
     .#{$typeKey}y#{$sizeKey} {
-      margin-top: $sizeValue * $spacing-base-size;
-      margin-bottom: $sizeValue * $spacing-base-size;
+      #{$typeValue}-top: $sizeValue * $spacing-base-size;
+      #{$typeValue}-bottom: $sizeValue * $spacing-base-size;
     }
 
     // mt0 pt0
