@@ -3,7 +3,7 @@
     <!-- start of home swiper -->
     <div class="home-swiper mb10">
       <swiper :options="swiperOptions">
-        <swiper-slide v-for="(item, index) in model.banner.items" :key="index">
+        <swiper-slide v-for="(item, index) in model.items" :key="index">
           <router-link :to="item.targetUrl">
             <img class="w100 h100" :src="item.imgUrl" alt />
           </router-link>
@@ -19,7 +19,7 @@
 
     <!-- start of home nav entry -->
     <div class="home-nav text-center bg-white bt1 bb1 mb10">
-      <nav :style="{height: isShow ? '1.4rem' : '5.6rem'}" style="overflow:hidden">
+      <nav :style="{height: isShow ? '5.6rem' : '1.4rem'}" class="bfc">
         <ul class="nav entry d-flex flex-wrap ai-center">
           <li
             class="nav-item w25 d-flex flex-column ai-center jc-center my10"
@@ -32,52 +32,14 @@
         </ul>
       </nav>
       <div class="entry-btn d-flex jc-center ai-center bg-gray-bg1" @click="()=> isShow = !isShow">
-        <span class="sprite" :class="isShow ? 'sprite-arrow-inverse' : 'sprite-arrow'"></span>
-        <div class="fs12 text-dark-4">{{isShow ? '展开': '收起'}}</div>
+        <span class="sprite" :class="isShow ? 'sprite-arrow' : 'sprite-arrow-inverse'"></span>
+        <div class="fs12 text-dark-4">{{isShow ? '收起' : '展开'}}</div>
       </div>
     </div>
     <!-- end of home nav entry -->
 
     <!-- start of newsList -->
-    <div class="card px18 mt12 mb10 bb1 bg-white">
-      <div class="card-header d-flex ai-center bb1 py15 mb12">
-        <span class="sprite sprite-news"></span>
-        <div class="flex-1 fs15 ml5">新闻资讯</div>
-        <span class="sprite sprite-more"></span>
-      </div>
-      <div class="card-body">
-        <nav class="mb15">
-          <ul class="nav d-flex jc-between fs12 ai=center">
-            <li class="nav-item" v-for="(item, index) in newsNavItems" :key="index">
-              <router-link class="nav-link" :to="item.path">{{item.categoryName}}</router-link>
-            </li>
-          </ul>
-        </nav>
-        <div class="swiper">
-          <swiper :options="swiperOptions1">
-            <swiper-slide v-for="(news, index) in newsNavItems" :key="index">
-              <div
-                class="d-flex ai-center mb15"
-                v-for="(item, index) in news.newsList"
-                :key="index"
-              >
-                <span class="category fs13">[{{item.category}}]</span>
-                <p class="flex-1 fs13">{{item.title}}</p>
-                <span class="fs10">{{item.date}}</span>
-              </div>
-            </swiper-slide>
-          </swiper>
-        </div>
-      </div>
-    </div>
-    <!-- end of newsList -->
-
-    <view-card :data="newsNavItems" title="新闻资讯">
-      <template #banner>
-        <div class="hero-banner">
-          <img src="./../../assets/images/20796372351730.jpg" alt />
-        </div>
-      </template>
+    <view-card :data="news" icon="news" title="新闻资讯">
       <template #content="{category}">
         <div
           class="d-flex ai-center mb15"
@@ -85,18 +47,74 @@
           :key="index"
           style="line-height: 0.38rem"
         >
-          <span class="fs14">[{{news.category}}]</span>
-          <p class="flex-1 fs14">{{news.title}}</p>
-          <span class="fs12">{{news.date}}</span>
+          <span class="fs14 text-blue-2">[{{news.category}}]</span>
+          <p class="flex-1 fs14 text-ellipsis">{{news.title}}</p>
+          <span class="fs12">{{news.createdAt}}</span>
         </div>
       </template>
     </view-card>
+    <!-- end of newsList -->
 
-    <!-- <div class="d-flex ai-center mb15" v-for="(item, index) in news.newsList" :key="index">
-      <span class="category fs13">[{{item.category}}]</span>
-      <p class="flex-1 fs13">{{item.title}}</p>
-      <span class="fs10">{{item.date}}</span>
-    </div>-->
+    <!-- start of heroList -->
+    <view-card :data="heroes" icon="hero" title="英雄列表">
+      <template #banner>
+        <div class="hero-banner">
+          <img src="./../../assets/images/20796372351730.jpg" alt />
+        </div>
+      </template>
+      <template #content="{category}">
+        <div class="d-flex flex-wrap ai-center text-center" style="margin:0 -4px">
+          <div class="w20 mb5" v-for="(hero, index) in category.heroList" :key="index">
+            <img :src="hero.avatar" alt width="90%" />
+            <h3 class="text-gray-3 fs12 fw500">{{hero.name}}</h3>
+          </div>
+        </div>
+      </template>
+    </view-card>
+    <!-- end of heroList -->
+
+    <!-- start of videoList -->
+    <view-card :data="videos" icon="video" title="精彩视频">
+      <template #content="{category}">
+        <div class="video d-flex flex-wrap ai-center" v-if="category">
+          <div class v-for="(video, index) in category.videoList" :key="index">
+            <img class="mb5" :src="video.cover" alt width="100%" />
+            <h3 class="text-gray-3 text-ellipsis-2 fs13 fw500">{{video.title}}</h3>
+            <div class="d-flex ai-center pt5 mb18" style="height: 15px;line-height: 15px">
+              <span class="sprite sprite-video"></span>
+              <span class="flex-1 fs10 text-gray-4">{{10}}万</span>
+              <span class="fs10 text-gray-4">{{video.createdAt.slice(5,10)}}</span>
+            </div>
+          </div>
+        </div>
+      </template>
+    </view-card>
+    <div class="btn-video text-center text-gray-5 fs12">点击查看更多</div>
+    <!-- end of videoList -->
+
+    <!-- start of strategyList -->
+    <view-card :data="strategies" icon="strategy" title="图文攻略">
+      <template #content="{category}">
+        <div class="mt10">
+          <div class="d-flex mt5" v-for="(item, index) in category.strategyList" :key="index">
+            <img  class="w33 mr5" :src="item.cover" alt="">
+            <div>
+              <p>{{item.title}}</p>
+              <p>{{item.description}}</p>
+            </div>
+            <div>
+
+            </div>
+          </div>
+
+
+        </div>
+
+
+      </template>
+    </view-card>
+    <!-- end of strategyList -->
+
     <div v-for="n in 30" :key="n">1</div>
   </div>
 </template>
@@ -108,10 +126,13 @@ export default {
     return {
       isShow: false,
       model: {
-        banner: {
-          items: []
-        }
+        name: "",
+        items: []
       },
+      news: [],
+      heroes: [],
+      videos: [],
+      strategies: [],
       swiperOptions: {
         pagination: {
           el: ".swiper-pagination"
@@ -120,7 +141,6 @@ export default {
           delay: 2000
         }
       },
-
       swiperOptions1: {},
 
       entryNavItems: [
@@ -137,73 +157,61 @@ export default {
         { spriteClass: "sprite sprite-blz", name: "对局环境", path: "/" },
         { spriteClass: "sprite sprite-blz", name: "无线王者团", path: "/" },
         { spriteClass: "sprite sprite-blz", name: "创意互动营", path: "/" }
-      ],
-
-      newsNavItems: [
-        {
-          categoryName: "热门",
-          path: "/",
-          newsList: new Array(5).fill({
-            category: "公告",
-            title: "2月18日全服不停机更新公告",
-            date: "02/17"
-          })
-        },
-        {
-          categoryName: "新闻",
-          path: "/",
-          newsList: new Array(5).fill({
-            category: "公告",
-            title: "2月18日全服不停机更新公告",
-            date: "02/17"
-          })
-        },
-        {
-          categoryName: "公告",
-          path: "/",
-          newsList: new Array(5).fill({
-            category: "公告",
-            title: "2月18日全服不停机更新公告",
-            date: "02/17"
-          })
-        },
-        {
-          categoryName: "活动",
-          path: "/",
-          newsList: new Array(5).fill({
-            category: "公告",
-            title: "2月18日全服不停机更新公告",
-            date: "02/17"
-          })
-        },
-        {
-          categoryName: "赛事",
-          path: "/",
-          newsList: new Array(5).fill({
-            category: "公告",
-            title: "2月18日全服不停机更新公告",
-            date: "02/17"
-          })
-        }
       ]
     };
   },
 
   methods: {
-    async fetchBanner() {
-      const res = await this.$http("/home/banner", {
+    async fetchHomeBanner() {
+      const res = await this.$http("/banner", {
         params: {
-          query: {
-            where: { "banner.name": "home" }
-          }
+          name: "home"
         }
       });
       this.model = Object.assign({}, this.model, res.data.data);
+    },
+
+    async fetchNews() {
+      const res = await this.$http("/article", {
+        params: {
+          category: "news"
+        }
+      });
+      this.news = res.data.data;
+    },
+
+    async fetchHeroes() {
+      const res = await this.$http("/hero", {
+        params: {
+          category: "hero"
+        }
+      });
+      this.heroes = res.data.data;
+    },
+    async fetchVideos() {
+      const res = await this.$http("/video", {
+        params: {
+          category: "video"
+        }
+      });
+      this.videos = res.data.data;
+    },
+    async fetchStrategies() {
+      const res = await this.$http("/article", {
+        params: {
+          category: "strategy"
+        }
+      });
+      this.strategies = res.data.data;
     }
   },
 
   created() {
-    this.fetchBanner();
+    this.fetchHomeBanner();
+    this.fetchNews();
+    this.fetchHeroes();
+    this.fetchVideos();
+    this.fetchStrategies();
   }
 };
 </script>
@@ -239,5 +247,19 @@ export default {
   img {
     width: 100%;
   }
+}
+
+.video {
+  > div {
+    width: 49.1%;
+    &:nth-of-type(2n + 1) {
+      margin-right: 5px;
+    }
+  }
+}
+
+.btn-video {
+  height: 0.7rem;
+  line-height: 0.7rem;
 }
 </style>
