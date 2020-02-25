@@ -22,13 +22,31 @@ module.exports = {
       }
     ])
 
+    let hotHeroList = await Hero.aggregate([
+      {
+        $match: { categories: { $in: childCat } }
+      },
+      {
+        $sample: { size: 10 }
+      },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: 'categories',
+          foreignField: '_id',
+          as: 'categories'
+        }
+      }
+    ])
+
 
 
     heroes.unshift({
       name: '热门',
-      heroList: await Hero.find({
-        categories: { $in: childCat }
-      }).populate('categories').limit(10)
+      heroList: hotHeroList
+      //   await Hero.find({
+      //   categories: { $in: childCat }
+      // }).populate('categories').limit(10)
     })
     return heroes
   }

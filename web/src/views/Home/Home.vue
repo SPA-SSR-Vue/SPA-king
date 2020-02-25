@@ -49,7 +49,7 @@
         >
           <span class="fs14 text-blue-2">[{{news.category}}]</span>
           <p class="flex-1 fs14 text-ellipsis">{{news.title}}</p>
-          <span class="fs12">{{news.createdAt}}</span>
+          <span class="fs12">{{news.createdAt.slice(5,10)}}</span>
         </div>
       </template>
     </view-card>
@@ -63,9 +63,9 @@
         </div>
       </template>
       <template #content="{category}">
-        <div class="d-flex flex-wrap ai-center text-center" style="margin:0 -4px">
-          <div class="w20 mb5" v-for="(hero, index) in category.heroList" :key="index">
-            <img :src="hero.avatar" alt width="90%" />
+        <div class="hero-list d-flex flex-wrap ai-center text-center pb15">
+          <div class="hero w20" v-for="(hero, index) in category.heroList" :key="index">
+            <img :src="hero.avatar" alt="hero avatar" />
             <h3 class="text-gray-3 fs12 fw500">{{hero.name}}</h3>
           </div>
         </div>
@@ -76,46 +76,47 @@
     <!-- start of videoList -->
     <view-card :data="videos" icon="video" title="精彩视频">
       <template #content="{category}">
-        <div class="video d-flex flex-wrap ai-center" v-if="category">
-          <div class v-for="(video, index) in category.videoList" :key="index">
-            <img class="mb5" :src="video.cover" alt width="100%" />
-            <h3 class="text-gray-3 text-ellipsis-2 fs13 fw500">{{video.title}}</h3>
-            <div class="d-flex ai-center pt5 mb18" style="height: 15px;line-height: 15px">
-              <span class="sprite sprite-video"></span>
-              <span class="flex-1 fs10 text-gray-4">{{10}}万</span>
-              <span class="fs10 text-gray-4">{{video.createdAt.slice(5,10)}}</span>
+        <div class="video-list" v-if="category">
+          <div class="d-flex flex-wrap ai-center">
+            <div class="video w50" v-for="(video, index) in category.videoList" :key="index">
+              <img :src="video.cover" alt />
+              <h3 class="video-title text-dark-3 text-ellipsis-2 fs13 fw500">{{video.title}}</h3>
+              <div class="video-info d-flex ai-center">
+                <span class="sprite sprite-video"></span>
+                <span class="flex-1 fs10 text-gray-4">{{10}}万</span>
+                <span class="fs10 text-gray-4">{{video.createdAt.slice(5,10)}}</span>
+              </div>
             </div>
           </div>
+          <div
+            class="video-btn text-center text-gray-5 fs12"
+            @click="() => $router.push('/strategy')"
+          >点击查看更多</div>
         </div>
       </template>
     </view-card>
-    <div class="btn-video text-center text-gray-5 fs12">点击查看更多</div>
     <!-- end of videoList -->
 
     <!-- start of strategyList -->
     <view-card :data="strategies" icon="strategy" title="图文攻略">
       <template #content="{category}">
-        <div class="mt10">
-          <div class="d-flex mt5" v-for="(item, index) in category.strategyList" :key="index">
-            <img  class="w33 mr5" :src="item.cover" alt="">
-            <div>
-              <p>{{item.title}}</p>
-              <p>{{item.description}}</p>
-            </div>
-            <div>
-
+        <div class="strategy-list">
+          <div
+            class="strategy d-flex pb5 mb10 bb1 w100"
+            v-for="(item, index) in category.strategyList"
+            :key="index"
+          >
+            <img class="w40 mr10" :src="item.cover" alt />
+            <div class="strategy-info bfc d-flex flex-column jc-between">
+              <p class="text-ellipsis fs15">{{item.title}}</p>
+              <p class="fs12 text-gray-4">{{item.description}}</p>
+              <span class="fs8 text-gray-2">{{item.createdAt.slice(5,10)}}</span>
             </div>
           </div>
-
-
         </div>
-
-
       </template>
     </view-card>
     <!-- end of strategyList -->
-
-    <div v-for="n in 30" :key="n">1</div>
   </div>
 </template>
 
@@ -141,22 +142,27 @@ export default {
           delay: 2000
         }
       },
-      swiperOptions1: {},
+      swiperOptions1: {
+        autoHeight: true,
+        autoplay: {
+          delay: 2000
+        }
+      },
 
       entryNavItems: [
         { spriteClass: "sprite sprite-blz", name: "爆料站", path: "/" },
-        { spriteClass: "sprite sprite-gsz", name: "故事站", path: "/" },
-        { spriteClass: "sprite sprite-blz", name: "周边商城", path: "/" },
-        { spriteClass: "sprite sprite-blz", name: "体验服", path: "/" },
-        { spriteClass: "sprite sprite-blz", name: "新人专区", path: "/" },
-        { spriteClass: "sprite sprite-blz", name: "荣耀·传承", path: "/" },
-        { spriteClass: "sprite sprite-blz", name: "模拟战资料库", path: "/" },
-        { spriteClass: "sprite sprite-blz", name: "王者营地", path: "/" },
-        { spriteClass: "sprite sprite-blz", name: "公众号", path: "/" },
-        { spriteClass: "sprite sprite-blz", name: "版本介绍", path: "/" },
-        { spriteClass: "sprite sprite-blz", name: "对局环境", path: "/" },
-        { spriteClass: "sprite sprite-blz", name: "无线王者团", path: "/" },
-        { spriteClass: "sprite sprite-blz", name: "创意互动营", path: "/" }
+        { spriteClass: "sprite sprite-story", name: "故事站", path: "/" },
+        { spriteClass: "sprite sprite-shop", name: "周边商城", path: "/" },
+        { spriteClass: "sprite sprite-exp", name: "体验服", path: "/" },
+        { spriteClass: "sprite sprite-new", name: "新人专区", path: "/" },
+        { spriteClass: "sprite sprite-book", name: "荣耀·传承", path: "/" },
+        { spriteClass: "sprite sprite-fight", name: "模拟战资料库", path: "/" },
+        { spriteClass: "sprite sprite-camp", name: "王者营地", path: "/" },
+        { spriteClass: "sprite sprite-wx", name: "公众号", path: "/" },
+        { spriteClass: "sprite sprite-version", name: "版本介绍", path: "/" },
+        { spriteClass: "sprite sprite-env", name: "对局环境", path: "/" },
+        { spriteClass: "sprite sprite-team", name: "无线王者团", path: "/" },
+        { spriteClass: "sprite sprite-interact", name: "创意互动营", path: "/" }
       ]
     };
   },
@@ -241,25 +247,54 @@ export default {
 }
 
 .hero-banner {
-  // font-size: 0;
-  // margin-top: -15px;
   margin-bottom: 6px;
   img {
     width: 100%;
   }
 }
 
-.video {
-  > div {
-    width: 49.1%;
-    &:nth-of-type(2n + 1) {
-      margin-right: 5px;
+.hero-list {
+  margin: 0 -0.16rem;
+  .hero {
+    padding: 0 0.14rem;
+    h3 {
+      padding: 0.02rem 0 0.1rem 0px;
+    }
+    img {
+      width: 100%;
     }
   }
 }
 
-.btn-video {
-  height: 0.7rem;
-  line-height: 0.7rem;
+.video-list {
+  margin-right: -0.1rem;
+  .video {
+    padding: 0 0.1rem 0.1rem 0;
+    margin-bottom: 0.24rem;
+    .video-title {
+      margin: 0.06rem 0;
+    }
+    img {
+      width: 100%;
+      height: 1.9rem;
+      border-radius: 0.04rem;
+    }
+  }
+  .video-btn {
+    text-align: center;
+    height: 0.7rem;
+    line-height: 0.7rem;
+  }
+}
+
+.strategy-list {
+  img {
+    height: 1.4rem;
+    width: 2.32rem;
+  }
+  .strategy-info {
+    width: 3.8rem;
+    height: 1.5rem;
+  }
 }
 </style>
