@@ -1,4 +1,6 @@
 module.exports = app => {
-    require('./home')(app)
-
+    require('./banner')(app)
+    require('./article')(app)
+    require('./hero')(app)
+    require('./Video')(app)
 }

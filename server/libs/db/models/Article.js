@@ -3,6 +3,7 @@ const articleSchema = new mongoose.Schema({
   title: { type: String },
   content: { type: String },
   cover: { type: String },
+  description: { type: String },
   categories: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Category' }]
 }, {
   timestamps: true,

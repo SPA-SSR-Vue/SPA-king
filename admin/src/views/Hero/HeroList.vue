@@ -56,7 +56,7 @@ export default {
         total: 0,
         pageSizes: [5, 10, 15, 20]
       },
-      query: {
+      queryOptions: {
         skip: 0,
         limit: 5
       }
@@ -67,7 +67,7 @@ export default {
     async fetch() {
       const res = await this.$http.get(`/rest/${this.resource.name}`, {
         params: {
-          query: this.query
+          queryOptions: this.queryOptions
         }
       });
       this.pagination.total = res.data.total;
@@ -101,12 +101,12 @@ export default {
     },
 
     changePageSize(pageSize) {
-      this.query.limit = pageSize;
+      this.queryOptions.limit = pageSize;
       this.fetch();
     },
 
     changeCurrentSize(currentPage) {
-      this.query.skip = (currentPage - 1) * this.query.limit;
+      this.queryOptions.skip = (currentPage - 1) * this.queryOptions.limit;
       this.fetch();
     }
   },

@@ -1,12 +1,15 @@
-module.exports = app => {
-  const express = require('express')
-  const controller = express.Router()
-  const service = require('./upload.service')
-  const authMiddleware = require('./../../middleware/auth')()
-  const multer = require('multer')
-  const upload = multer({ dest: __dirname + '/../../../../public/uploads' })
+const service = require('./upload.service')
 
-  controller.post('/', authMiddleware, upload.single('file'), service.upload)
+async function upload(req, res) {
+  const url = await service.upload(req)
+  res.send({
+    success: true,
+    message: '上传成功',
+    url
+  });
+}
 
-  app.use('/admin/api/uploads', controller);
+
+module.exports = {
+  upload
 }

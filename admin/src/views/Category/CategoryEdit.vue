@@ -64,15 +64,11 @@ export default {
       const res = await this.$http.get(
         `/rest/${this.resource.name}/${this.id}`
       );
-      this.model = res.data;
+      this.model = res.data.data;
     },
 
     async fetch() {
-      const res = await this.$http.get(`/rest/${this.resource.name}`, {
-        params: {
-          populate: "parent"
-        }
-      });
+      const res = await this.$http.get(`/rest/${this.resource.name}`);
       this.channels = res.data.data;
     }
   },

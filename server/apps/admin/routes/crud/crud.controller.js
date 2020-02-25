@@ -1,16 +1,58 @@
-module.exports = app => {
-  const express = require('express')
-  const controller = express.Router()
-  const service = require('./crud.service')
-  const authMiddleware = require('./../../middleware/auth')()
-  const resourceMiddleware = require('./../../middleware/resource')()
+const service = require('./crud.service')
 
-  controller
-    .post('/', service.create)
-    .get('/', service.findAll)
-    .get('/:id', service.findOne)
-    .put('/:id', service.update)
-    .delete('/:id', service.remove)
+module.exports = {
+  async create(req, res) {
+    const body = req.body
+    const item = await service.create(req, body)
+    res.send({
+      success: true,
+      message: '创建成功',
+      data: item
+    });
+  },
 
-  app.use('/admin/api/rest/:resource', authMiddleware, resourceMiddleware, controller);
+  async update(req, res) {
+    const body = req.body
+    const id = req.params.id || ''
+    const item = await service.update(req, id, body)
+    res.send({
+      success: true,
+      message: '更新成功',
+      data: item
+    });
+  },
+
+  async findOne(req, res) {
+    const id = req.params.id || ''
+    const item = await service.findOne(req, id)
+    res.send({
+      success: true,
+      message: '查找成功',
+      data: item
+    });
+  },
+
+  async findAll(req, res) {
+    let queryOptions = {}
+    if (req.query.queryOptions) {
+      queryOptions = JSON.parse(req.query.queryOptions) || {}
+    }
+    const result = await service.findAll(req, queryOptions)
+    res.send({
+      success: true,
+      message: '查找成功',
+      total: result.total,
+      data: result.items
+    });
+  },
+
+  async remove(req, res) {
+    const id = req.params.id || ''
+    const item = await service.remove(req, id)
+    res.send({
+      success: true,
+      message: '删除成功',
+      data: item
+    });
+  },
 }

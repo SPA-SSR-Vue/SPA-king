@@ -13,14 +13,14 @@
         </el-select>
       </el-form-item>
       <el-form-item label="名称">
-        <el-input v-model="model.banner.name"></el-input>
+        <el-input v-model="model.name"></el-input>
       </el-form-item>
       <el-form-item label="items">
-        <el-button type="success" size="small" @click="model.banner.items.push({})">
+        <el-button type="success" size="small" @click="model.items.push({})">
           <i class="el-icon-plus"></i> 添加
         </el-button>
         <el-row>
-          <el-col :span="12" v-for="(item, index) in model.banner.items" :key="index">
+          <el-col :span="12" v-for="(item, index) in model.items" :key="index">
             <el-form-item label="title" label-width="80px">
               <el-input v-model="item.title"></el-input>
             </el-form-item>
@@ -62,10 +62,8 @@ export default {
         title: "横幅"
       },
       model: {
-        banner: {
-          name: "",
-          items: []
-        }
+        name: "",
+        items: []
       },
       categories: []
     };
@@ -74,9 +72,6 @@ export default {
   computed: {
     isNew() {
       return this.id ? false : true;
-    },
-    token() {
-      return "bearer " + localStorage.token;
     }
   },
 
@@ -98,7 +93,7 @@ export default {
       const res = await this.$http.get(
         `/rest/${this.resource.name}/${this.id}`
       );
-      this.model = res.data;
+      this.model = res.data.data;
     },
 
     async fetch() {

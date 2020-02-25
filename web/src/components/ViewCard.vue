@@ -12,13 +12,19 @@
     <div class="card-body">
       <nav class="mb15" style="line-height: 0.46rem">
         <ul class="nav d-flex jc-between fs13 ai=center">
-          <li class="nav-item" v-for="(item, index) in data" :key="index">
-            <router-link class="nav-link" to="/">{{item.categoryName}}</router-link>
+          <li
+            class="nav-item"
+            :class="swiper.realIndex === index ? 'active' : ''"
+            v-for="(item, index) in data"
+            :key="index"
+            @click="()=> swiper.slideTo(index)"
+          >
+            <router-link class="nav-link" to="/">{{item.name}}</router-link>
           </li>
         </ul>
       </nav>
       <div class="swiper">
-        <swiper :options="swiperOptions">
+        <swiper :options="swiperOptions" ref="swiper">
           <swiper-slide v-for="(item, index) in data" :key="index">
             <slot name="content" :category="item"></slot>
           </swiper-slide>
@@ -35,10 +41,24 @@ export default {
     icon: { type: String, default: "news" },
     title: { type: String, default: "标题" },
     data: { type: Array, required: true },
-    swiperOptions: { type: Object, default: () => {} }
+    swiperOptions: {
+      type: Object,
+      default: () => {
+        return { autoHeight: true };
+      }
+    }
+  },
+  computed: {
+    swiper() {
+      return this.$refs.swiper.swiper;
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.active {
+  color: #db9e3f;
+  border-bottom: 3px solid #db9e3f;
+}
 </style>
