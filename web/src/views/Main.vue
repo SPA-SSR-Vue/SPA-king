@@ -1,24 +1,23 @@
 <template>
-  <div class="home">
+  <div>
     <header class="d-flex ai-center sprite sprite-top-bg sticky">
-      <router-link to="/" class="sprite sprite-logo ml18 mr12"></router-link>
+      <router-link to="/" class="sprite sprite-logo ml-18 mr-12"></router-link>
       <div class="text-white flex-1">
-        <p class="fs13">王者荣耀</p>
-        <p class="fs8 text-gray-6">团队成就更多</p>
+        <p class="fs-13">王者荣耀</p>
+        <p class="fs-8 text-gray-6">团队成就更多</p>
       </div>
-      <div class="btn sprite sprite-btn-download mr15"></div>
+      <div class="btn btn-download sprite sprite-btn-download mr-15"></div>
     </header>
     <main>
-      <nav class="bg-primary text-white text-center fs13">
-        <ul class="nav main d-flex jc-around ai-center">
-          <li class="nav-item">
-            <router-link class="nav-link" to="/">首页</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/strategy">攻略中心</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/competition">赛事中心</router-link>
+      <nav class="bg-primary text-white text-center fs-13">
+        <ul class="nav nav-home d-flex jc-around ai-center">
+          <li
+            class="nav-item"
+            :class="{active: $route.path === item.path}"
+            v-for="(item, index) in nav"
+            :key="index"
+          >
+            <router-link class="nav-link" :to="item.path">{{item.name}}</router-link>
           </li>
         </ul>
       </nav>
@@ -29,17 +28,15 @@
 
 <script>
 export default {
-  name: "ViewMain"
+  name: "ViewMain",
+  data() {
+    return {
+      nav: [
+        { name: "首页", path: "/" },
+        { name: "攻略中心", path: "/strategy" },
+        { name: "赛事中心", path: "/competition" }
+      ]
+    };
+  }
 };
 </script>
-
-<style scoped lang="scss">
-.home {
-  header {
-    .btn {
-      position: relative;
-      top: -0.04rem;
-    }
-  }
-}
-</style>

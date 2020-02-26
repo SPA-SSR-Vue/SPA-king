@@ -22,7 +22,7 @@
 }
 
 // text-ellipsis
-.text-ellipsis {
+.text-ellipsis-1 {
   text-overflow: ellipsis;
   display: inline-block;
   overflow: hidden;
@@ -68,22 +68,22 @@ $font-weight: (
 );
 
 @each $fsKey, $fsValue in $font-sizes {
-  .fs#{$fsKey} {
+  .fs-#{$fsKey} {
     font-size: $fsValue * $base-font-size;
   }
 }
 
 @each $fwVal in $font-weight {
-  .fw#{$fwVal} {
+  .fw-#{$fwVal} {
     font-weight: $fwVal !important;
   }
 }
 
-.lh12 {
-  line-height: 1.2;
+.lh-12 {
+  line-height: 1.2 !important;
 }
 
-.lh15 {
-  line-height: 1.5;
+.lh-15 {
+  line-height: 1.5 !important;
 }
 

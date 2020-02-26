@@ -1,8 +1,8 @@
 @mixin clearfix {
   *zoom: 1;
   &::after {
-    display: block;
     content: "";
+    display: block;
     clear: both;
   }
 }

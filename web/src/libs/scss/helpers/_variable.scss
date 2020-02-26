@@ -1,11 +1,11 @@
 $colors: (
   primary: #db9e3f,
   blue: #4394e4,
-  blue-2: #464f73,
+  blue-1: #464f73,
   red: #ff0000,
   white: #fff,
   gray-bg: #f1f1f1,
-  gray-bg1: #f9f9f9,
+  gray-bg-1: #f9f9f9,
   gray: #bdc2c5,
   gray-1: #cccccc,
   gray-2: #9fa0a0,
@@ -79,6 +79,7 @@ $spacing-directions: (
 
 $spacing-base-size: 1rem;
 $border-color: #d4d9de;
+$bg-color: #d4d9de;
 
 $box-shadow-color: #000;
 $text-shadow-color: #000;

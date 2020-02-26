@@ -1,119 +1,135 @@
 <template>
   <div class="bg-gray-bg">
-    <!-- start of home swiper -->
-    <div class="home-swiper mb10">
+    <!-- start of home banner swiper -->
+    <div class="banner banner-home mb-10">
       <swiper :options="swiperOptions">
-        <swiper-slide v-for="(item, index) in model.items" :key="index">
+        <swiper-slide v-for="(item, index) in homeBanner.items" :key="index">
           <router-link :to="item.targetUrl">
-            <img class="w100 h100" :src="item.imgUrl" alt />
+            <img class="w-100 h-100" :src="item.imgUrl" alt />
           </router-link>
         </swiper-slide>
-        <div
-          id="pagination"
-          class="custom-pagination swiper-pagination text-right"
-          slot="pagination"
-        ></div>
+        <div class="banner-pagination swiper-pagination text-right" slot="pagination"></div>
       </swiper>
     </div>
-    <!-- end of home swiper -->
+    <!-- end of home banner swiper -->
 
     <!-- start of home nav entry -->
-    <div class="home-nav text-center bg-white bt1 bb1 mb10">
+    <div class="text-center bg-white bt-1 bb-1 mb-10">
       <nav :style="{height: isShow ? '5.6rem' : '1.4rem'}" class="bfc">
-        <ul class="nav entry d-flex flex-wrap ai-center">
+        <ul class="nav nav-entry d-flex flex-wrap ai-center">
           <li
-            class="nav-item w25 d-flex flex-column ai-center jc-center my10"
+            class="nav-item w-25 d-flex flex-column ai-center jc-center my-10"
             v-for="(entry, index) in entryNavItems"
             :key="index"
           >
             <span :class="entry.spriteClass"></span>
-            <router-link class="navlink fs12 text-dark-5 mt5" :to="entry.path">{{entry.name}}</router-link>
+            <router-link class="nav-link fs-12 text-dark-5 mt-5" :to="entry.path">{{entry.name}}</router-link>
           </li>
         </ul>
       </nav>
-      <div class="entry-btn d-flex jc-center ai-center bg-gray-bg1" @click="()=> isShow = !isShow">
+      <div
+        class="btn btn-spread d-flex jc-center ai-center bg-gray-bg-1"
+        @click="()=> isShow = !isShow"
+      >
         <span class="sprite" :class="isShow ? 'sprite-arrow' : 'sprite-arrow-inverse'"></span>
-        <div class="fs12 text-dark-4">{{isShow ? '收起' : '展开'}}</div>
+        <div class="fs-12 text-dark-4">{{isShow ? '收起' : '展开'}}</div>
       </div>
     </div>
     <!-- end of home nav entry -->
 
     <!-- start of newsList -->
-    <view-card :data="news" icon="news" title="新闻资讯">
-      <template #content="{category}">
-        <div
-          class="d-flex ai-center mb15"
-          v-for="(news, index) in category.newsList"
-          :key="index"
-          style="line-height: 0.38rem"
-        >
-          <span class="fs14 text-blue-2">[{{news.category}}]</span>
-          <p class="flex-1 fs14 text-ellipsis">{{news.title}}</p>
-          <span class="fs12">{{news.createdAt.slice(5,10)}}</span>
-        </div>
+    <view-card icon1="news" title="新闻资讯">
+      <template #body>
+        <view-list :data="news">
+          <template #items="{item}">
+            <div
+              class="d-flex ai-center mb-15"
+              v-for="(news, index) in item.newsList"
+              :key="index"
+              style="line-height: 0.38rem"
+            >
+              <span class="fs-14 text-blue-1">[{{news.category}}]</span>
+              <span class="mx-2">|</span>
+              <p class="flex-1 fs-14 text-ellipsis-1">{{news.title}}</p>
+              <span class="fs-12">{{news.createdAt.slice(5,10)}}</span>
+            </div>
+          </template>
+        </view-list>
       </template>
     </view-card>
     <!-- end of newsList -->
 
     <!-- start of heroList -->
-    <view-card :data="heroes" icon="hero" title="英雄列表">
+    <view-card icon1="hero" title="英雄列表">
       <template #banner>
-        <div class="hero-banner">
+        <div class="banner banner-hero">
           <img src="./../../assets/images/20796372351730.jpg" alt />
         </div>
       </template>
-      <template #content="{category}">
-        <div class="hero-list d-flex flex-wrap ai-center text-center pb15">
-          <div class="hero w20" v-for="(hero, index) in category.heroList" :key="index">
-            <img :src="hero.avatar" alt="hero avatar" />
-            <h3 class="text-gray-3 fs12 fw500">{{hero.name}}</h3>
-          </div>
-        </div>
+      <template #body>
+        <view-list :data="heroes">
+          <template #items="{item}">
+            <div class="hero-list d-flex flex-wrap ai-center text-center pb-15">
+              <div class="hero w-20" v-for="(hero, index) in item.heroList" :key="index">
+                <img :src="hero.avatar" alt="hero avatar" />
+                <h3 class="text-gray-3 fs-12 fw-500">{{hero.name}}</h3>
+              </div>
+            </div>
+          </template>
+        </view-list>
       </template>
     </view-card>
     <!-- end of heroList -->
 
     <!-- start of videoList -->
-    <view-card :data="videos" icon="video" title="精彩视频">
-      <template #content="{category}">
-        <div class="video-list" v-if="category">
-          <div class="d-flex flex-wrap ai-center">
-            <div class="video w50" v-for="(video, index) in category.videoList" :key="index">
-              <img :src="video.cover" alt />
-              <h3 class="video-title text-dark-3 text-ellipsis-2 fs13 fw500">{{video.title}}</h3>
-              <div class="video-info d-flex ai-center">
-                <span class="sprite sprite-video"></span>
-                <span class="flex-1 fs10 text-gray-4">{{10}}万</span>
-                <span class="fs10 text-gray-4">{{video.createdAt.slice(5,10)}}</span>
+    <view-card icon1="videos" title="精彩视频">
+      <template #body>
+        <view-list :data="videos">
+          <template #items="{item}">
+            <div class="video-list">
+              <div class="d-flex flex-wrap ai-center">
+                <div class="video w-50" v-for="(video, index) in item.videoList" :key="index">
+                  <img :src="video.cover" alt />
+                  <h3 class="video-title text-dark-3 text-ellipsis-2 fs-13 fw-500">{{video.title}}</h3>
+                  <div class="video-info d-flex ai-center">
+                    <span class="sprite sprite-video"></span>
+                    <span class="flex-1 fs-10 text-gray-4">{{10}}万</span>
+                    <span class="fs-10 text-gray-4">{{video.createdAt.slice(5,10)}}</span>
+                  </div>
+                </div>
               </div>
+              <div
+                class="btn btn-video text-center text-gray-5 fs-12"
+                @click="() => $router.push('/strategy')"
+              >点击查看更多</div>
             </div>
-          </div>
-          <div
-            class="video-btn text-center text-gray-5 fs12"
-            @click="() => $router.push('/strategy')"
-          >点击查看更多</div>
-        </div>
+          </template>
+        </view-list>
       </template>
     </view-card>
     <!-- end of videoList -->
 
     <!-- start of strategyList -->
-    <view-card :data="strategies" icon="strategy" title="图文攻略">
-      <template #content="{category}">
-        <div class="strategy-list">
-          <div
-            class="strategy d-flex pb5 mb10 bb1 w100"
-            v-for="(item, index) in category.strategyList"
-            :key="index"
-          >
-            <img class="w40 mr10" :src="item.cover" alt />
-            <div class="strategy-info bfc d-flex flex-column jc-between">
-              <p class="text-ellipsis fs15">{{item.title}}</p>
-              <p class="fs12 text-gray-4">{{item.description}}</p>
-              <span class="fs8 text-gray-2">{{item.createdAt.slice(5,10)}}</span>
+    <view-card class="card-strategy" icon1="strategy" title="图文攻略">
+      <template #body>
+        <view-list :data="strategies">
+          <template #items="{item}">
+            <div class="strategy-list">
+              <div
+                class="strategy d-flex pb-5 mb-10 bb-1 w-100"
+                v-for="(strategy, index) in item.strategyList"
+                :key="index"
+              >
+                <img class="w-40 mr-10" :src="strategy.cover" alt />
+                <div class="strategy-info bfc d-flex flex-column jc-between">
+                  <p class="text-ellipsis-1 fs-15">{{strategy.title}}</p>
+                  <p class="fs-12 text-gray-4 text-ellipsis-2">{{strategy.description}}</p>
+                  <span class="fs-8 text-gray-2">{{strategy.createdAt.slice(5,10)}}</span>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </template>
+        </view-list>
       </template>
     </view-card>
     <!-- end of strategyList -->
@@ -126,7 +142,11 @@ export default {
   data() {
     return {
       isShow: false,
-      model: {
+      homeBanner: {
+        name: "",
+        items: []
+      },
+      heroBanner: {
         name: "",
         items: []
       },
@@ -139,13 +159,7 @@ export default {
           el: ".swiper-pagination"
         },
         autoplay: {
-          delay: 2000
-        }
-      },
-      swiperOptions1: {
-        autoHeight: true,
-        autoplay: {
-          delay: 2000
+          delay: 2500
         }
       },
 
@@ -174,7 +188,16 @@ export default {
           name: "home"
         }
       });
-      this.model = Object.assign({}, this.model, res.data.data);
+      this.homeBanner = res.data.data;
+    },
+
+    async fetchHeroBanner() {
+      const res = await this.$http("/banner", {
+        params: {
+          name: "hero"
+        }
+      });
+      this.heroBanner = res.data.data;
     },
 
     async fetchNews() {
@@ -194,6 +217,7 @@ export default {
       });
       this.heroes = res.data.data;
     },
+
     async fetchVideos() {
       const res = await this.$http("/video", {
         params: {
@@ -202,6 +226,7 @@ export default {
       });
       this.videos = res.data.data;
     },
+
     async fetchStrategies() {
       const res = await this.$http("/article", {
         params: {
@@ -223,36 +248,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.entry-btn {
-  height: 0.6rem;
-  line-height: 0.6rem;
-  span {
-    margin-right: 0.06rem;
-  }
-}
-
-.card {
-  .swiper-container {
-    .category::after {
-      display: block;
-      content: 0;
-      width: 10px;
-      height: 10px;
-      background-color: #000;
-      position: absolute;
-      top: 0;
-      right: 0;
-    }
-  }
-}
-
-.hero-banner {
-  margin-bottom: 6px;
-  img {
-    width: 100%;
-  }
-}
-
 .hero-list {
   margin: 0 -0.16rem;
   .hero {
@@ -280,21 +275,9 @@ export default {
       border-radius: 0.04rem;
     }
   }
-  .video-btn {
-    text-align: center;
-    height: 0.7rem;
-    line-height: 0.7rem;
-  }
 }
 
-.strategy-list {
-  img {
-    height: 1.4rem;
-    width: 2.32rem;
-  }
-  .strategy-info {
-    width: 3.8rem;
-    height: 1.5rem;
-  }
+.mx-2 {
+  margin: 0 0.04rem;
 }
 </style>
