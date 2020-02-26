@@ -51,14 +51,21 @@
 // banner
 .banner {
   &.banner-hero {
-    margin-bottom: 6px;
+    margin-bottom: 0.12rem;
     img {
       width: 100%;
     }
   }
+  &.banner-home,
+  &.banner-strategy {
+    a {
+      display: block;
+      height: 3.38rem;
+    }
+  }
   .banner-pagination {
     &.swiper-pagination {
-      left: -6px;
+      left: -0.12rem;
       .swiper-pagination-bullet {
         width: 0.17rem;
         height: 0.17rem;
@@ -75,6 +82,40 @@
 }
 
 .card {
+  padding: 0 0.34rem;
+  &.card-hero {
+    .hero-list {
+      margin: 0 -0.16rem;
+      .hero {
+        padding: 0 0.14rem;
+        h3 {
+          padding: 0.02rem 0 0.1rem 0;
+        }
+        img {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  &.card-video {
+    .video-list {
+      margin-right: -0.1rem;
+      .video {
+        padding: 0 0.1rem 0.1rem 0;
+        margin-bottom: 0.24rem;
+        .video-title {
+          margin: 0.06rem 0;
+        }
+        img {
+          width: 100%;
+          height: 1.9rem;
+          border-radius: 0.04rem;
+        }
+      }
+    }
+  }
+
   &.card-strategy {
     img {
       height: 1.4rem;
@@ -83,16 +124,6 @@
     .strategy-info {
       width: 3.8rem;
       height: 1.5rem;
-    }
-  }
-  &.news-list-card {
-    padding: 0 0.34rem;
-    .card-body {
-    }
-  }
-
-  &.heroes-list-card {
-    .card-body {
     }
   }
 }

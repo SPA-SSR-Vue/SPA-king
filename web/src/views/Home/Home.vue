@@ -38,7 +38,7 @@
     <!-- end of home nav entry -->
 
     <!-- start of newsList -->
-    <view-card icon1="news" title="新闻资讯">
+    <view-card class="card-news" icon1="news" title="新闻资讯">
       <template #body>
         <view-list :data="news">
           <template #items="{item}">
@@ -60,10 +60,12 @@
     <!-- end of newsList -->
 
     <!-- start of heroList -->
-    <view-card icon1="hero" title="英雄列表">
+    <view-card class="card-hero" icon1="hero" title="英雄列表">
       <template #banner>
-        <div class="banner banner-hero">
-          <img src="./../../assets/images/20796372351730.jpg" alt />
+        <div class="banner banner-hero" v-for="(item, index) in heroBanner.items" :key="index">
+          <router-link :to="item.targetUrl">
+            <img :src="item.imgUrl" alt />
+          </router-link>
         </div>
       </template>
       <template #body>
@@ -82,7 +84,7 @@
     <!-- end of heroList -->
 
     <!-- start of videoList -->
-    <view-card icon1="videos" title="精彩视频">
+    <view-card class="card-video" icon1="videos" title="精彩视频">
       <template #body>
         <view-list :data="videos">
           <template #items="{item}">
@@ -239,6 +241,7 @@ export default {
 
   created() {
     this.fetchHomeBanner();
+    this.fetchHeroBanner();
     this.fetchNews();
     this.fetchHeroes();
     this.fetchVideos();
@@ -248,35 +251,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.hero-list {
-  margin: 0 -0.16rem;
-  .hero {
-    padding: 0 0.14rem;
-    h3 {
-      padding: 0.02rem 0 0.1rem 0px;
-    }
-    img {
-      width: 100%;
-    }
-  }
-}
-
-.video-list {
-  margin-right: -0.1rem;
-  .video {
-    padding: 0 0.1rem 0.1rem 0;
-    margin-bottom: 0.24rem;
-    .video-title {
-      margin: 0.06rem 0;
-    }
-    img {
-      width: 100%;
-      height: 1.9rem;
-      border-radius: 0.04rem;
-    }
-  }
-}
-
 .mx-2 {
   margin: 0 0.04rem;
 }
