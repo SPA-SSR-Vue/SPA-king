@@ -1,7 +1,14 @@
 <template>
   <div>
-    <h3 class="form-title">{{this.isNew?'新建':'编辑'}}{{resource.title}}</h3>
-    <el-form :model="model" @submit.native.prevent="save" ref="form" label-width="80px">
+    <h3 class="form-title">
+      {{ isNew ? "新建" : "编辑" }}{{ resource.title }}
+    </h3>
+    <el-form
+      :model="model"
+      @submit.native.prevent="save"
+      ref="form"
+      label-width="80px"
+    >
       <el-tabs v-model="tab.name" type="card">
         <el-tab-pane label="基础信息" name="1">
           <el-row>
@@ -113,11 +120,19 @@
             <el-input v-model="model.teamTips" type="textarea"></el-input>
           </el-form-item>
           <el-form-item label="最佳搭档">
-            <el-button type="success" size="small" @click="model.partners.push({})">
+            <el-button
+              type="success"
+              size="small"
+              @click="model.partners.push({})"
+            >
               <i class="el-icon-plus"></i>添加
             </el-button>
             <el-row>
-              <el-col :span="12" v-for="(partner, index) in model.partners" :key="index">
+              <el-col
+                :span="12"
+                v-for="(partner, index) in model.partners"
+                :key="index"
+              >
                 <el-select v-model="partner.hero" filterable>
                   <el-option
                     v-for="hero in heroes"
@@ -126,16 +141,24 @@
                     :value="hero._id"
                   ></el-option>
                 </el-select>
-                <el-input v-model="partner.description" type="textarea"></el-input>
+                <el-input v-model="partner.desc" type="textarea"></el-input>
               </el-col>
             </el-row>
           </el-form-item>
           <el-form-item label="被谁克制">
-            <el-button type="success" size="small" @click="model.controllers.push({})">
+            <el-button
+              type="success"
+              size="small"
+              @click="model.controllers.push({})"
+            >
               <i class="el-icon-plus"></i>添加
             </el-button>
             <el-row>
-              <el-col :span="12" v-for="(controller, index) in model.controllers" :key="index">
+              <el-col
+                :span="12"
+                v-for="(controller, index) in model.controllers"
+                :key="index"
+              >
                 <el-select v-model="controller.hero" filterable>
                   <el-option
                     v-for="hero in heroes"
@@ -144,16 +167,24 @@
                     :value="hero._id"
                   ></el-option>
                 </el-select>
-                <el-input v-model="controller.description" type="textarea"></el-input>
+                <el-input v-model="controller.desc" type="textarea"></el-input>
               </el-col>
             </el-row>
           </el-form-item>
           <el-form-item label="克制谁">
-            <el-button type="success" size="small" @click="model.restrainers.push({})">
+            <el-button
+              type="success"
+              size="small"
+              @click="model.restrainers.push({})"
+            >
               <i class="el-icon-plus"></i>添加
             </el-button>
             <el-row>
-              <el-col :span="12" v-for="(restrainer, index) in model.restrainers" :key="index">
+              <el-col
+                :span="12"
+                v-for="(restrainer, index) in model.restrainers"
+                :key="index"
+              >
                 <el-select v-model="restrainer.hero" filterable>
                   <el-option
                     v-for="hero in heroes"
@@ -162,7 +193,10 @@
                     :value="hero._id"
                   ></el-option>
                 </el-select>
-                <el-input v-model="restrainer.description" type="textarea"></el-input>
+                <el-input
+                  v-model="restrainer.desc"
+                  type="textarea"
+                ></el-input>
               </el-col>
             </el-row>
           </el-form-item>
@@ -177,15 +211,17 @@
 </template>
 
 <script>
+import { save, fetchOne } from "./../../api/crud";
+
 export default {
   props: {
-    id: {}
+    id: {},
   },
   data() {
     return {
       resource: {
         name: "heroes",
-        title: "英雄"
+        title: "英雄",
       },
       model: {
         name: "",
@@ -193,64 +229,47 @@ export default {
         comment: { difficult: 0 },
         partners: [],
         controllers: [],
-        restrainers: []
+        restrainers: [],
       },
       categories: [],
       items: [],
       epigraphs: [],
       heroes: [],
       tab: {
-        name: "1"
-      }
+        name: "1",
+      },
     };
   },
 
   computed: {
     isNew() {
-      return this.id ? false : true;
-    }
+      return !this.id;
+    },
   },
 
   methods: {
-    async save() {
-      const method = this.isNew ? "POST" : "PUT";
-      const url = this.isNew
-        ? `/rest/${this.resource.name}`
-        : `/rest/${this.resource.name}/${this.id}`;
-      await this.$http({
-        method,
-        url,
-        data: this.model
-      });
-      this.$router.push(`/${this.resource.name}/list`);
-    },
-
-    async fetchOne() {
-      const res = await this.$http.get(
-        `/rest/${this.resource.name}/${this.id}`
-      );
-      this.model = res.data.data;
-    },
+    save,
+    fetchOne,
 
     async fetchCategories() {
       const res = await this.$http.get("/rest/categories");
-      this.categories = res.data.data;
+      this.categories = res.data;
     },
 
     async fetchItems() {
       const res = await this.$http.get("/rest/items");
-      this.items = res.data.data;
+      this.items = res.data;
     },
 
     async fetchEpigraphs() {
       const res = await this.$http.get("/rest/epigraphs");
-      this.epigraphs = res.data.data;
+      this.epigraphs = res.data;
     },
 
     async fetchHeroes() {
       const res = await this.$http.get("/rest/heroes");
-      this.heroes = res.data.data;
-    }
+      this.heroes = res.data;
+    },
   },
 
   created() {
@@ -259,9 +278,8 @@ export default {
     this.fetchItems();
     this.fetchEpigraphs();
     this.fetchHeroes();
-  }
+  },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

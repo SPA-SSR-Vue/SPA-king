@@ -1,10 +1,22 @@
 <template>
   <div>
-    <h3 class="form-title">{{this.isNew?'新建':'编辑'}}{{resource.title}}</h3>
-    <el-form :model="model" @submit.native.prevent="save" ref="form" label-width="80px">
+    <h3 class="form-title">
+      {{ this.isNew ? "新建" : "编辑" }}{{ resource.title }}
+    </h3>
+    <el-form
+      :model="model"
+      @submit.native.prevent="save"
+      ref="form"
+      label-width="80px"
+    >
       <el-form-item label="所属英雄">
         <el-select v-model="model.hero" multiple filterable>
-          <el-option v-for="hero in heroes" :key="hero._id" :label="hero.name" :value="hero._id"></el-option>
+          <el-option
+            v-for="hero in heroes"
+            :key="hero._id"
+            :label="hero.name"
+            :value="hero._id"
+          ></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="名字">
@@ -31,63 +43,46 @@
 </template>
 
 <script>
+import { save, fetchOne } from "./../../api/crud";
+
 export default {
   props: {
-    id: {}
+    id: {},
   },
   data() {
     return {
       resource: {
         name: "skills",
-        title: "技能"
+        title: "技能",
       },
       model: {
         name: "",
-        icon: ""
+        icon: "",
       },
-      heroes: []
+      heroes: [],
     };
   },
 
   computed: {
     isNew() {
-      return this.id ? false : true;
-    }
+      return !this.id;
+    },
   },
 
   methods: {
-    async save() {
-      const method = this.isNew ? "POST" : "PUT";
-      const url = this.isNew
-        ? `/rest/${this.resource.name}`
-        : `/rest/${this.resource.name}/${this.id}`;
-      await this.$http({
-        method,
-        url,
-        data: this.model
-      });
-      this.$router.push(`/${this.resource.name}/list`);
-    },
-
-    async fetchOne() {
-      const res = await this.$http.get(
-        `/rest/${this.resource.name}/${this.id}`
-      );
-      this.model = res.data.data;
-    },
-
-    async fetchCategories() {
+    save,
+    fetchOne,
+    async fetchHero() {
       const res = await this.$http.get("/rest/heroes");
-      this.heroes = res.data.data;
-    }
+      this.heroes = res.data;
+    },
   },
 
   created() {
     this.id && this.fetchOne();
-    this.fetchCategories();
-  }
+    this.fetchHero();
+  },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -1,12 +1,17 @@
-const mongoose = require('mongoose')
-const articleSchema = new mongoose.Schema({
-  title: { type: String },
-  content: { type: String },
-  cover: { type: String },
-  description: { type: String },
-  categories: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Category' }]
-}, {
-  timestamps: true,
-})
+const mongoose = require("mongoose");
 
-module.exports = mongoose.model('Article', articleSchema, 'articles')
+const schema = new mongoose.Schema(
+  {
+    categories: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Category" }],
+    author: { type: mongoose.SchemaTypes.ObjectId, ref: "User" },
+    title: { type: String },
+    content: { type: String },
+    coverImg: { type: String },
+    desc: { type: String },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+module.exports = mongoose.model("Article", schema, "articles");

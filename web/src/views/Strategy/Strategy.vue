@@ -2,13 +2,16 @@
   <div>
     <!-- start of strategy banner swiper -->
     <div class="banner banner-strategy mb-10">
-      <swiper :options="swiperOptions">
-        <swiper-slide v-for="(item, index) in strategyBanner.items" :key="index">
+      <swiper class="swiper swiper-strategy" :options="swiperOptions">
+        <swiper-slide
+          v-for="(item, index) in strategyBanner.items"
+          :key="index"
+        >
           <router-link :to="item.targetUrl">
-            <img class="w-100 h-100" :src="item.imgUrl" alt />
+            <img class="w-100 h-100" :src="item.coverImg" alt />
           </router-link>
         </swiper-slide>
-        <div class="banner-pagination swiper-pagination text-right" slot="pagination"></div>
+        <div class="swiper-pagination text-right" slot="pagination"></div>
       </swiper>
     </div>
     <!-- end of strategy banner swiper -->
@@ -23,36 +26,37 @@ export default {
       strategyBanner: [
         {
           name: "",
-          items: ""
-        }
+          items: "",
+        },
       ],
       swiperOptions: {
+        loop: true,
         pagination: {
-          el: ".swiper-pagination"
+          el: ".swiper-pagination",
+          clickable: true,
         },
         autoplay: {
-          delay: 2500
-        }
-      }
+          delay: 2500,
+        },
+      },
     };
   },
 
   methods: {
     async fetchStrategyBanner() {
-      const res = await this.$http("/banner", {
+      const res = await this.$http("/banners", {
         params: {
-          name: "strategy"
-        }
+          name: "strategy",
+        },
       });
-      this.strategyBanner = res.data.data;
-    }
+      this.strategyBanner = res.data;
+    },
   },
 
   created() {
     this.fetchStrategyBanner();
-  }
+  },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -1,7 +1,14 @@
 <template>
   <div>
-    <h3 class="form-title">{{this.isNew?'新建':'编辑'}}{{resource.title}}</h3>
-    <el-form :model="model" @submit.native.prevent="save" ref="form" label-width="80px">
+    <h3 class="form-title">
+      {{ isNew ? "新建" : "编辑" }}{{ resource.title }}
+    </h3>
+    <el-form
+      :model="model"
+      @submit.native.prevent="save"
+      ref="form"
+      label-width="80px"
+    >
       <el-form-item label="所属分类">
         <el-select v-model="model.categories" multiple filterable>
           <el-option
@@ -18,9 +25,13 @@
           :headers="getAuthHeaders()"
           :action="uploadUrl"
           :show-file-list="false"
-          :on-success="res => $set(model, 'cover', res.url)"
+          :on-success="res => $set(model, 'coverImg', res.url)"
         >
-          <img v-if="model.cover" :src="model.cover" class="avatar cover" />
+          <img
+            v-if="model.coverImg"
+            :src="model.coverImg"
+            class="avatar cover"
+          />
           <i v-else class="el-icon-plus avatar-uploader-icon cover"></i>
         </el-upload>
       </el-form-item>
@@ -39,65 +50,50 @@
 </template>
 
 <script>
+import { save, fetchOne, fetchCats } from "./../../api/crud";
+
 export default {
   props: {
-    id: {}
+    id: {},
   },
   data() {
     return {
       resource: {
         name: "articles",
-        title: "文章"
+        title: "文章",
       },
       model: {
-        name: "",
-        content: ""
+        categories: [],
+        author: "",
+        title: "",
+        content: "",
+        coverImg: "",
+        desc: "",
       },
-      categories: []
+      categories: [],
     };
   },
 
   computed: {
     isNew() {
-      return this.id ? false : true;
-    }
+      return !this.id;
+    },
   },
 
   methods: {
-    async save() {
-      const method = this.isNew ? "POST" : "PUT";
-      const url = this.isNew
-        ? `/rest/${this.resource.name}`
-        : `/rest/${this.resource.name}/${this.id}`;
-      await this.$http({
-        method,
-        url,
-        data: this.model
-      });
-      this.$router.push(`/${this.resource.name}/list`);
-    },
-
-    async fetchOne() {
-      const res = await this.$http.get(
-        `/rest/${this.resource.name}/${this.id}`
-      );
-      this.model = res.data.data;
-    },
-
-    async fetchCategories() {
-      const res = await this.$http.get("/rest/categories");
-      this.categories = res.data.data;
-    }
+    save,
+    fetchOne,
+    fetchCats,
   },
 
   created() {
     this.id && this.fetchOne();
-    this.fetchCategories();
-  }
+    this.fetchCats();
+  },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .cover {
   width: 400px;
 }

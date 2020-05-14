@@ -1,84 +1,76 @@
 <template>
   <div>
-    <h3 class="form-title">{{this.isNew?'新建':'编辑'}}{{resource.title}}</h3>
-    <el-form :model="model" @submit.native.prevent="save" ref="form" label-width="80px">
+    <h3 class="form-title">
+      {{ this.isNew ? "新建" : "编辑" }}{{ resource.title }}
+    </h3>
+    <el-form
+      :model="model"
+      @submit.native.prevent="save"
+      ref="form"
+      label-width="80px"
+    >
       <el-form-item label="上级分类">
         <el-select v-model="model.parent" filterable>
           <el-option
-            v-for="channel in channels"
-            :key="channel._id"
-            :label="channel.name"
-            :value="channel._id"
+            v-for="category in categories"
+            :key="category._id"
+            :label="category.name"
+            :value="category._id"
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="名称">
+      <el-form-item label="分类名称">
         <el-input v-model="model.name"></el-input>
       </el-form-item>
+      <el-form-item label="分类编码">
+        <el-input v-model="model.code" type="number"></el-input>
+      </el-form-item>
       <el-form-item>
-        <el-button type="primary" native-type="submit" size="medium">保存</el-button>
+        <el-button type="primary" native-type="submit" size="medium"
+          >保存</el-button
+        >
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
+import { save, fetchOne, fetchCats } from "./../../api/crud";
+
 export default {
   props: {
-    id: {}
+    id: {},
   },
   data() {
     return {
       resource: {
         name: "categories",
-        title: "分类"
+        title: "分类",
       },
       model: {
-        name: ""
+        name: "",
       },
-      channels: []
+      categories: [],
     };
   },
 
   computed: {
     isNew() {
-      return this.id ? false : true;
-    }
+      return !this.id;
+    },
   },
 
   methods: {
-    async save() {
-      const method = this.isNew ? "POST" : "PUT";
-      const url = this.isNew
-        ? `/rest/${this.resource.name}`
-        : `/rest/${this.resource.name}/${this.id}`;
-      await this.$http({
-        method,
-        url,
-        data: this.model
-      });
-      this.$router.push(`/${this.resource.name}/list`);
-    },
-
-    async fetchOne() {
-      const res = await this.$http.get(
-        `/rest/${this.resource.name}/${this.id}`
-      );
-      this.model = res.data.data;
-    },
-
-    async fetch() {
-      const res = await this.$http.get(`/rest/${this.resource.name}`);
-      this.channels = res.data.data;
-    }
+    save,
+    fetchOne,
+    fetchCats,
   },
 
   created() {
     this.id && this.fetchOne();
-    this.fetch();
-  }
+    this.fetchCats();
+  },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style></style>

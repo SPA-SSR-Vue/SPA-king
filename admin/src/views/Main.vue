@@ -2,18 +2,23 @@
   <el-container>
     <el-aside width="180px">
       <el-menu router :default-active="$route.path" style="height: 100vh">
-        <el-submenu v-for="(item, index) in menu.items" :index="`${index} + 1`" :key="index">
-          <template slot="title">{{item.title}}</template>
+        <el-submenu
+          v-for="(item, index) in menu.items"
+          :index="`${index} + 1`"
+          :key="index"
+        >
+          <template slot="title">{{ item.title }}</template>
           <el-menu-item-group
             v-for="(groupItem, groupItemIndex) in item.groupItems"
             :key="groupItemIndex"
           >
-            <template slot="title">{{groupItem.title}}</template>
+            <template slot="title">{{ groupItem.title }}</template>
             <el-menu-item
               :index="subItem.path"
               v-for="(subItem, subItemIndex) in groupItem.items"
               :key="subItemIndex"
-            >{{subItem.name}}</el-menu-item>
+              >{{ subItem.name }}</el-menu-item
+            >
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -21,9 +26,11 @@
     <el-container>
       <el-header>
         <router-link to="/">
-          <h2>{{resource.title}}</h2>
+          <h2>{{ resource.title }}</h2>
         </router-link>
-        <el-button class="btn" type="primary" size="small" @click="logout">退出</el-button>
+        <el-button class="btn" type="primary" size="small" @click="logout"
+          >退出</el-button
+        >
       </el-header>
       <el-main>
         <router-view :key="$route.path"></router-view>
@@ -34,12 +41,12 @@
 
 <script>
 export default {
-  name: "ViewMain",
+  name: "AppMain",
   data() {
     return {
       resource: {
         name: "main",
-        title: "王者荣耀网站后台管理系统"
+        title: "王者荣耀网站后台管理系统",
       },
       menu: {
         items: [
@@ -50,67 +57,73 @@ export default {
                 title: "分类",
                 items: [
                   { name: "新建分类", path: "/categories/create" },
-                  { name: "分类列表", path: "/categories/list" }
-                ]
+                  { name: "分类列表", path: "/categories/list" },
+                ],
               },
               {
                 title: "文章",
                 items: [
                   { name: "新建文章", path: "/articles/create" },
-                  { name: "文章列表", path: "/articles/list" }
-                ]
+                  { name: "文章列表", path: "/articles/list" },
+                ],
               },
+
+              {
+                title: "广告",
+                items: [
+                  { name: "新建广告", path: "/banners/create" },
+                  { name: "广告列表", path: "/banners/list" },
+                ],
+              },
+            ],
+          },
+          {
+            title: "英雄管理",
+            groupItems: [
               {
                 title: "英雄",
                 items: [
                   { name: "新建英雄", path: "/heroes/create" },
-                  { name: "英雄列表", path: "/heroes/list" }
-                ]
+                  { name: "英雄列表", path: "/heroes/list" },
+                ],
               },
               {
                 title: "技能",
                 items: [
                   { name: "新建技能", path: "/skills/create" },
-                  { name: "技能列表", path: "/skills/list" }
-                ]
+                  { name: "技能列表", path: "/skills/list" },
+                ],
               },
               {
                 title: "物品",
                 items: [
                   { name: "新建物品", path: "/items/create" },
-                  { name: "物品列表", path: "/items/list" }
-                ]
+                  { name: "物品列表", path: "/items/list" },
+                ],
               },
               {
                 title: "铭文",
                 items: [
                   { name: "新建铭文", path: "/epigraphs/create" },
-                  { name: "铭文列表", path: "/epigraphs/list" }
-                ]
+                  { name: "铭文列表", path: "/epigraphs/list" },
+                ],
               },
-              {
-                title: "banner",
-                items: [
-                  { name: "新建banner", path: "/banners/create" },
-                  { name: "banner列表", path: "/banners/list" }
-                ]
-              }
-            ]
+            ],
           },
           {
             title: "账户管理",
             groupItems: [
               {
-                title: "管理员账户",
+                title: "账户",
                 items: [
-                  { name: "新建管理员账户", path: "/admin_users/create" },
-                  { name: "管理员账户列表", path: "/admin_users/list" }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                  { name: "新建账户", path: "/users/create" },
+                  { name: "账户列表", path: "/users/list" },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     };
   },
 
@@ -118,8 +131,8 @@ export default {
     logout() {
       localStorage.removeItem("king-token");
       this.$router.push("/login");
-    }
-  }
+    },
+  },
 };
 </script>
 

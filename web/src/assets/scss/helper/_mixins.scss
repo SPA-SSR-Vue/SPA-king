@@ -1,0 +1,35 @@
+@mixin clearfix {
+  *zoom: 1;
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
+
+@mixin sde(
+  $w: 100%,
+  $h: 2px,
+  $c: black,
+  $t: auto,
+  $r: auto,
+  $b: 0,
+  $l: auto,
+  $transform: none,
+  $sd: "after"
+) {
+  position: relative;
+  &:#{$sd} {
+    content: "";
+    display: inline-block;
+    width: $w;
+    height: $h;
+    background-color: $c;
+    position: absolute;
+    top: $t;
+    right: $r;
+    bottom: $b;
+    left: $l;
+    transform: $transform;
+  }
+}

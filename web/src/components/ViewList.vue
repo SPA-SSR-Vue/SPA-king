@@ -3,12 +3,12 @@
     <ul class="nav d-flex ai-center jc-between fs-13 text-dark-3 mb-15">
       <li
         class="nav-item"
-        :class="[{active: $refs.swiper.swiper.realIndex === i}]"
+        :class="[{ active: $refs.swiper.swiper.realIndex === i }]"
         v-for="(item, i) in data"
         :key="i"
         @click="$refs.swiper.swiper.slideTo(i)"
       >
-        <router-link class="nav-link" to>{{item.name}}</router-link>
+        <router-link class="nav-link" to>{{ item.name }}</router-link>
       </li>
     </ul>
     <div class="swiper">
@@ -29,15 +29,14 @@ export default {
     options: {
       type: Object,
       default: () => ({
-        autoHeight: true
-      })
-    }
+        autoHeight: true,
+      }),
+    },
   },
   data() {
     return {};
-  }
+  },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss"></style>

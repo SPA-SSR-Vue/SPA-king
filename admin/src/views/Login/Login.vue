@@ -5,7 +5,12 @@
         <span>请先登录用户</span>
       </div>
       <div class="body">
-        <el-form :model="model" ref="form" label-width="80px" @submit.native.prevent="login">
+        <el-form
+          :model="model"
+          ref="form"
+          label-width="80px"
+          @submit.native.prevent="login"
+        >
           <el-form-item label="用户名">
             <el-input v-model="model.username"></el-input>
           </el-form-item>
@@ -25,17 +30,20 @@
 export default {
   data() {
     return {
-      model: {}
+      model: {
+        username: "",
+        password: "",
+      },
     };
   },
 
   methods: {
     async login() {
-      const res = await this.$http.post("/login", this.model);
+      const res = await this.$http.post("/auth/login", this.model);
       localStorage.setItem("king-token", res.data.token);
       this.$router.push("/");
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -43,10 +51,6 @@ export default {
 .card {
   width: 30rem;
   height: 20rem;
-  // position: absolute;
-  // top: 50%;
-  // left: 50%;
-  // transform: translate(-50%, -50%);
   margin: auto;
   position: absolute;
   left: 0;

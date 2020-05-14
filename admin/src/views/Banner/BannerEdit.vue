@@ -1,14 +1,21 @@
 <template>
   <div>
-    <h3 class="form-title">{{this.isNew?'新建':'编辑'}}{{resource.title}}</h3>
-    <el-form :model="model" @submit.native.prevent="save" ref="form" label-width="80px">
+    <h3 class="form-title">
+      {{ isNew ? "新建" : "编辑" }}{{ resource.title }}
+    </h3>
+    <el-form
+      :model="model"
+      @submit.native.prevent="save"
+      ref="form"
+      label-width="80px"
+    >
       <el-form-item label="所属分类">
         <el-select v-model="model.categories" multiple filter>
           <el-option
-            v-for="channel in categories"
-            :key="channel._id"
-            :label="channel.name"
-            :value="channel._id"
+            v-for="category in categories"
+            :key="category._id"
+            :label="category.name"
+            :value="category._id"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -33,9 +40,14 @@
                 :headers="getAuthHeaders()"
                 :action="uploadUrl"
                 :show-file-list="false"
-                :on-success="res => $set(item, 'imgUrl', res.url)"
+                :on-success="res => $set(item, 'coverImg', res.url)"
               >
-                <img v-if="item.imgUrl" :src="item.imgUrl" class="avatar" style="width: 100%" />
+                <img
+                  v-if="item.coverImg"
+                  :src="item.coverImg"
+                  class="avatar"
+                  style="width: 100%"
+                />
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
             </el-form-item>
@@ -44,70 +56,53 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" native-type="submit" size="medium">保存</el-button>
+        <el-button type="primary" native-type="submit" size="medium"
+          >保存</el-button
+        >
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
+import { save, fetchOne, fetchCats } from "./../../api/crud";
+
 export default {
   props: {
-    id: {}
+    id: {},
   },
   data() {
     return {
       resource: {
         name: "banners",
-        title: "横幅"
+        title: "横幅",
       },
       model: {
+        categories: [],
         name: "",
-        items: []
+        items: [{}],
       },
-      categories: []
+      categories: [],
     };
   },
 
   computed: {
     isNew() {
-      return this.id ? false : true;
-    }
+      return !this.id;
+    },
   },
 
   methods: {
-    async save() {
-      const method = this.isNew ? "POST" : "PUT";
-      const url = this.isNew
-        ? `/rest/${this.resource.name}`
-        : `/rest/${this.resource.name}/${this.id}`;
-      await this.$http({
-        method,
-        url,
-        data: this.model
-      });
-      this.$router.push(`/${this.resource.name}/list`);
-    },
-
-    async fetchOne() {
-      const res = await this.$http.get(
-        `/rest/${this.resource.name}/${this.id}`
-      );
-      this.model = res.data.data;
-    },
-
-    async fetch() {
-      const res = await this.$http.get(`/rest/categories`);
-      this.categories = res.data.data;
-    }
+    save,
+    fetchOne,
+    fetchCats,
   },
 
   created() {
     this.id && this.fetchOne();
-    this.fetch();
-  }
+    this.fetchCats();
+  },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style></style>

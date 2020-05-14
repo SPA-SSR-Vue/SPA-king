@@ -1,11 +1,11 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 const skillSchema = new mongoose.Schema({
+  hero: { type: mongoose.SchemaTypes.ObjectId, ref: "Hero" },
   name: { type: String },
   icon: { type: String },
-  description: { type: String },
+  desc: { type: String },
   coolDown: { type: String },
   expend: { type: String },
-  hero: { type: mongoose.SchemaTypes.ObjectId, ref: 'Hero' }
-})
+});
 
-module.exports = mongoose.model('Skill', skillSchema, 'skills')
+module.exports = mongoose.model("Skill", skillSchema, "skills");

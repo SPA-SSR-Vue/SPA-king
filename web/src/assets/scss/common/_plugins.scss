@@ -1,0 +1,19 @@
+.swiper {
+  &.swiper-home,
+  &.swiper-strategy {
+    .swiper-pagination {
+      left: -0.12rem;
+      .swiper-pagination-bullet {
+        width: 0.17rem;
+        height: 0.17rem;
+        border-radius: 0.04rem;
+        margin: 0 0.2rem 0 0;
+        background-color: map-get($colors, white);
+        opacity: 1;
+        &.swiper-pagination-bullet-active {
+          background-color: map-get($colors, blue);
+        }
+      }
+    }
+  }
+}

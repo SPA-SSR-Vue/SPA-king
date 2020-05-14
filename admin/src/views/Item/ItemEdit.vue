@@ -1,7 +1,14 @@
 <template>
   <div>
-    <h3 class="form-title">{{this.isNew?'新建':'编辑'}}{{resource.title}}</h3>
-    <el-form :model="model" @submit.native.prevent="save" ref="form" label-width="80px">
+    <h3 class="form-title">
+      {{ this.isNew ? "新建" : "编辑" }}{{ resource.title }}
+    </h3>
+    <el-form
+      :model="model"
+      @submit.native.prevent="save"
+      ref="form"
+      label-width="80px"
+    >
       <el-form-item label="所属分类">
         <el-select v-model="model.categories" multiple filterable>
           <el-option
@@ -36,63 +43,42 @@
 </template>
 
 <script>
+import { save, fetchOne, fetchCats } from "./../../api/crud";
+
 export default {
   props: {
-    id: {}
+    id: {},
   },
   data() {
     return {
       resource: {
         name: "items",
-        title: "物品"
+        title: "物品",
       },
       model: {
         name: "",
-        icon: ""
+        icon: "",
       },
-      categories: []
+      categories: [],
     };
   },
 
   computed: {
     isNew() {
-      return this.id ? false : true;
-    }
+      return !this.id;
+    },
   },
 
   methods: {
-    async save() {
-      const method = this.isNew ? "POST" : "PUT";
-      const url = this.isNew
-        ? `/rest/${this.resource.name}`
-        : `/rest/${this.resource.name}/${this.id}`;
-      await this.$http({
-        method,
-        url,
-        data: this.model
-      });
-      this.$router.push(`/${this.resource.name}/list`);
-    },
-
-    async fetchOne() {
-      const res = await this.$http.get(
-        `/rest/${this.resource.name}/${this.id}`
-      );
-      this.model = res.data.data;
-    },
-
-    async fetchCategories() {
-      const res = await this.$http.get("/rest/categories");
-      this.categories = res.data.data;
-    }
+    save,
+    fetchOne,
+    fetchCats,
   },
-
   created() {
     this.id && this.fetchOne();
-    this.fetchCategories();
-  }
+    this.fetchCats();
+  },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

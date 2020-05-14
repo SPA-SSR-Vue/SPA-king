@@ -13,11 +13,13 @@
         <ul class="nav nav-home d-flex jc-around ai-center">
           <li
             class="nav-item"
-            :class="{active: $route.path === item.path}"
+            :class="{ active: $route.path === item.path }"
             v-for="(item, index) in nav"
             :key="index"
           >
-            <router-link class="nav-link" :to="item.path">{{item.name}}</router-link>
+            <router-link class="nav-link" :to="item.path">{{
+              item.name
+            }}</router-link>
           </li>
         </ul>
       </nav>
@@ -34,9 +36,39 @@ export default {
       nav: [
         { name: "首页", path: "/" },
         { name: "攻略中心", path: "/strategy" },
-        { name: "赛事中心", path: "/competition" }
-      ]
+        { name: "赛事中心", path: "/competition" },
+      ],
     };
-  }
+  },
 };
 </script>
+
+<style lang="scss">
+@import "./../assets/scss/helper";
+
+.nav {
+  .nav-item {
+    border-bottom: 0.06rem solid transparent;
+    &.active {
+      color: map-get($colors, primary);
+      border-bottom: 0.06rem solid map-get($colors, primary);
+    }
+  }
+  &.nav-home {
+    height: 0.88rem;
+    .nav-item {
+      &.active {
+        color: map-get($colors, white);
+        border-bottom: 0.06rem solid map-get($colors, white);
+      }
+    }
+  }
+}
+
+.btn {
+  &.btn-download {
+    position: relative;
+    top: -0.04rem;
+  }
+}
+</style>

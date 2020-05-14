@@ -1,10 +1,15 @@
 <template>
   <div>
-    <el-button type="primary" size="small" @click="$router.push(`/${resource.name}/create`)">创建</el-button>
-    <h3 class="table-title">{{this.resource.title}}列表</h3>
+    <el-button
+      type="primary"
+      size="small"
+      @click="$router.push(`/${resource.name}/create`)"
+      >创建</el-button
+    >
+    <h3 class="table-title">{{ this.resource.title }}列表</h3>
     <el-table :data="data" border stripe>
       <el-table-column
-        v-for="(field,key) in fields"
+        v-for="(field, key) in fields"
         :prop="key"
         :key="key"
         :label="field.label"
@@ -16,16 +21,19 @@
             type="text"
             size="small"
             @click="$router.push(`/${resource.name}/edit/${scope.row._id}`)"
-          >编辑</el-button>
-          <el-button type="text" size="small" @click="remove(scope.row._id)">删除</el-button>
+            >编辑</el-button
+          >
+          <el-button type="text" size="small" @click="remove(scope.row._id)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
     <el-pagination
       @size-change="changePageSize"
-      @current-change="changeCurrentSize"
+      @current-change="changeCurrentPage"
       :page-sizes="pagination.pageSizes"
-      :page-size="100"
+      :page-size="10"
       layout="total, sizes, prev, pager, next, jumper"
       :total="pagination.total"
     ></el-pagination>
@@ -33,84 +41,49 @@
 </template>
 
 <script>
+import {
+  fetch,
+  remove,
+  changePageSize,
+  changeCurrentPage,
+} from "./../../api/crud";
+
 export default {
   data() {
     return {
       resource: {
         name: "banners",
-        title: "横幅"
+        title: "横幅",
       },
       data: [],
       fields: {
         _id: { label: "ID", width: "240" },
-        name: { label: "名称", width: "" }
+        name: { label: "名称", width: "" },
       },
       pagination: {
         total: 0,
-        pageSizes: [5, 10, 15, 20]
+        pageSizes: [10, 20, 30, 50, 100],
       },
       queryOptions: {
-        skip: 0,
-        limit: 5
-      }
+        page: 1,
+        limit: 10,
+      },
     };
   },
 
   methods: {
-    async fetch() {
-      const res = await this.$http.get(`/rest/${this.resource.name}`, {
-        params: {
-          queryOptions: this.queryOptions
-        }
-      });
-      this.pagination.total = res.data.total;
-      this.data = res.data.data;
-    },
-
-    async remove(id) {
-      this.$confirm(
-        `此操作将永久删除${this.resource.title}, 是否继续?`,
-        "提示",
-        {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }
-      )
-        .then(async () => {
-          await this.$http.delete(`/rest/${this.resource.name}/${id}`);
-          this.fetch();
-          this.$message({
-            type: "success",
-            message: "删除成功!"
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
-    },
-
-    changePageSize(pageSize) {
-      this.queryOptions.limit = pageSize;
-      this.fetch();
-    },
-
-    changeCurrentSize(currentPage) {
-      this.queryOptions.skip = (currentPage - 1) * this.queryOptions.limit;
-      this.fetch();
-    }
+    fetch,
+    remove,
+    changePageSize,
+    changeCurrentPage,
   },
 
   created() {
     this.fetch();
   },
 
-  mounted() {}
+  mounted() {},
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
