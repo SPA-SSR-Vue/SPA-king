@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3 class="form-title">
-      {{ this.isNew ? "新建" : "编辑" }}{{ resource.title }}
+      {{ isNew ? "新建" : "编辑" }}{{ resource.title }}
     </h3>
     <el-form
       :model="model"
@@ -10,7 +10,7 @@
       label-width="80px"
     >
       <el-form-item label="上级分类">
-        <el-select v-model="model.parent" filterable>
+        <el-select v-model="model.pid" filterable>
           <el-option
             v-for="category in categories"
             :key="category._id"

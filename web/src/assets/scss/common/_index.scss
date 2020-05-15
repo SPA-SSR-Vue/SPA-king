@@ -40,6 +40,16 @@ body {
   }
 }
 
+.nav {
+  .nav-item {
+    border-bottom: 0.06rem solid transparent;
+    &.active {
+      color: map-get($colors, primary);
+      border-bottom: 0.06rem solid map-get($colors, primary);
+    }
+  }
+}
+
 .sticky {
   position: sticky;
   top: 0;

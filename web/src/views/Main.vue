@@ -50,13 +50,6 @@ main {
 }
 
 .nav {
-  .nav-item {
-    border-bottom: 0.06rem solid transparent;
-    &.active {
-      color: map-get($colors, primary);
-      border-bottom: 0.06rem solid map-get($colors, primary);
-    }
-  }
   &.nav-home {
     height: 0.88rem;
     .nav-item {
