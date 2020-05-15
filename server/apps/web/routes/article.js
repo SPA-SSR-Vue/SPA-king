@@ -5,6 +5,9 @@ module.exports = app => {
   const Article = require("./../../../libs/db/models/Article");
 
   router.get("/", async (req, res) => {
+    if (req.query.query) {
+      const q = JSON.parse(req.query.query);
+    }
     let { category = "" } = req.query;
     let items = [];
     const parentCat = await Category.findOne({ name: category });
@@ -102,6 +105,24 @@ module.exports = app => {
       success: true,
       message: "请求成功",
       data: items,
+    });
+  });
+
+  router.get("/:id", async (req, res) => {
+    const { id } = req.params;
+    const article = await Article.findById(id);
+    const linkItems = await Article.find({
+      categories: { $in: article.categories },
+    })
+      .sort({ _id: -1 })
+      .limit(2);
+
+    res.send({
+      code: 0,
+      data: {
+        linkItems,
+        article,
+      },
     });
   });
 

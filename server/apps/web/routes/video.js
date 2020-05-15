@@ -32,5 +32,19 @@ module.exports = app => {
     });
   });
 
+  router.get("/:id", async (req, res) => {
+    const { id } = req.params;
+    const video = await Video.findById(id);
+    const linkItems = await Video.find().sort({ _id: -1 }).limit(10);
+
+    res.send({
+      code: 0,
+      data: {
+        linkItems,
+        video,
+      },
+    });
+  });
+
   app.use("/web/api/videos", router);
 };

@@ -19,22 +19,31 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="名字">
-        <el-input v-model="model.name"></el-input>
-      </el-form-item>
-      <el-form-item label="图标">
+      <el-form-item label="封面">
         <el-upload
           class="avatar-uploader"
           :headers="getAuthHeaders()"
           :action="uploadUrl"
           :show-file-list="false"
-          :on-success="res => $set(model, 'icon', res.url)"
+          :on-success="res => $set(model, 'coverImg', res.url)"
         >
-          <img v-if="model.icon" :src="model.icon" class="avatar" />
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          <img
+            v-if="model.coverImg"
+            :src="model.coverImg"
+            class="avatar cover"
+          />
+          <i v-else class="el-icon-plus avatar-uploader-icon cover"></i>
         </el-upload>
       </el-form-item>
-
+      <el-form-item label="推荐/热门">
+        <el-switch v-model="model.ishot">是否推荐</el-switch>
+      </el-form-item>
+      <el-form-item label="标题">
+        <el-input v-model="model.title"></el-input>
+      </el-form-item>
+      <el-form-item label="视频链接">
+        <el-input v-model="model.videoUrl"></el-input>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" native-type="submit">保存</el-button>
       </el-form-item>
@@ -52,12 +61,16 @@ export default {
   data() {
     return {
       resource: {
-        name: "epigraphs",
-        title: "铭文",
+        name: "video",
+        title: "视频",
       },
       model: {
-        name: "",
-        icon: "",
+        categories: [],
+        author: "",
+        title: "",
+        content: "",
+        coverImg: "",
+        desc: "",
       },
       categories: [],
     };
@@ -82,4 +95,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.cover {
+  width: 400px;
+}
+</style>

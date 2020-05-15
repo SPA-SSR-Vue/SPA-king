@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header class="d-flex ai-center sprite sprite-top-bg sticky">
+    <header class="d-flex ai-center sprite sprite-top-bg fixed">
       <router-link to="/" class="sprite sprite-logo ml-18 mr-12"></router-link>
       <div class="text-white flex-1">
         <p class="fs-13">王者荣耀</p>
@@ -23,7 +23,7 @@
           </li>
         </ul>
       </nav>
-      <router-view></router-view>
+      <router-view :key="$route.path"></router-view>
     </main>
   </div>
 </template>
@@ -45,6 +45,9 @@ export default {
 
 <style lang="scss">
 @import "./../assets/scss/helper";
+main {
+  margin-top: 0.9rem;
+}
 
 .nav {
   .nav-item {

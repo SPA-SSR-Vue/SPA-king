@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const skillSchema = new mongoose.Schema({
+const schema = new mongoose.Schema({
   hero: { type: mongoose.SchemaTypes.ObjectId, ref: "Hero" },
   name: { type: String },
   icon: { type: String },
@@ -8,4 +8,4 @@ const skillSchema = new mongoose.Schema({
   expend: { type: String },
 });
 
-module.exports = mongoose.model("Skill", skillSchema, "skills");
+module.exports = mongoose.model("Skill", schema, "skills");

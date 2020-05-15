@@ -3,9 +3,17 @@
     <!-- start of home banner swiper -->
     <div class="banner banner-home mb-10">
       <swiper class="swiper swiper-home" :options="swiperOptions">
-        <swiper-slide v-for="(item, index) in homeBanner.items" :key="index">
+        <swiper-slide
+          v-for="(item, index) in homeBanner.items"
+          :key="`swiper-${index}`"
+        >
           <router-link :to="item.targetUrl">
-            <img class="w-100 h-100" :src="item.coverImg" alt />
+            <img
+              class="w-100 h-100"
+              v-lazy="item.coverImg"
+              data-lazy="true"
+              alt
+            />
           </router-link>
         </swiper-slide>
         <div class="swiper-pagination text-right" slot="pagination"></div>
@@ -20,7 +28,7 @@
           <li
             class="nav-item w-25 d-flex flex-column ai-center jc-center my-10"
             v-for="(entry, index) in entryNavItems"
-            :key="index"
+            :key="`home-nav-${index}`"
           >
             <span :class="entry.spriteClass"></span>
             <router-link
@@ -33,7 +41,7 @@
       </nav>
       <div
         class="btn btn-spread d-flex jc-center ai-center bg-gray-bg-1"
-        @click="() => (isShow = !isShow)"
+        @click="isShow = !isShow"
       >
         <span
           class="sprite"
@@ -49,17 +57,18 @@
       <template #body>
         <view-list :data="news">
           <template #items="{item}">
-            <div
+            <router-link
               class="d-flex ai-center mb-15"
               v-for="(news, index) in item.newsList"
-              :key="index"
+              :key="`news-${index}`"
+              :to="`/articles/${news._id}`"
               style="line-height: 0.38rem"
             >
               <span class="fs-14 text-blue-1">[{{ news.category }}]</span>
               <span class="mx-2">|</span>
               <p class="flex-1 fs-14 text-ellipsis-1">{{ news.title }}</p>
               <span class="fs-12">{{ news.createdAt.slice(5, 10) }}</span>
-            </div>
+            </router-link>
           </template>
         </view-list>
       </template>
@@ -72,10 +81,10 @@
         <div
           class="banner banner-hero"
           v-for="(item, index) in heroBanner.items"
-          :key="index"
+          :key="`banner-${index}`"
         >
           <router-link :to="item.targetUrl">
-            <img :src="item.coverImg" alt />
+            <img v-lazy="item.coverImg" data-lazy="true" alt />
           </router-link>
         </div>
       </template>
@@ -83,14 +92,15 @@
         <view-list :data="heroes">
           <template #items="{item}">
             <div class="hero-list d-flex flex-wrap ai-center text-center pb-15">
-              <div
+              <router-link
                 class="hero w-20"
                 v-for="(hero, index) in item.heroList"
-                :key="index"
+                :key="`hero-${index}`"
+                :to="`/heroes/${hero._id}`"
               >
-                <img :src="hero.avatar" alt="hero avatar" />
-                <h3 class="text-gray-3 fs-12 fw-500">{{ hero.name }}</h3>
-              </div>
+                <img v-lazy="hero.avatar" data-lazy="true" alt="hero avatar" />
+                <h3 class="text-gray-3 fs-12 fw-500 mt-5">{{ hero.name }}</h3>
+              </router-link>
             </div>
           </template>
         </view-list>
@@ -105,12 +115,13 @@
           <template #items="{item}">
             <div class="video-list">
               <div class="d-flex flex-wrap ai-center">
-                <div
+                <router-link
                   class="video w-50"
                   v-for="(video, index) in item.videoList"
-                  :key="index"
+                  :key="`video-${index}`"
+                  :to="`/videos/${video._id}`"
                 >
-                  <img :src="video.coverImg" alt />
+                  <img v-lazy="video.coverImg" data-lazy="true" alt />
                   <h3
                     class="video-title text-dark-3 text-ellipsis-2 fs-13 fw-500"
                   >
@@ -123,11 +134,11 @@
                       video.createdAt.slice(5, 10)
                     }}</span>
                   </div>
-                </div>
+                </router-link>
               </div>
               <div
                 class="btn btn-video text-center text-gray-5 fs-12"
-                @click="() => $router.push('/strategy')"
+                @click="$router.push('/strategy')"
               >
                 点击查看更多
               </div>
@@ -144,12 +155,18 @@
         <view-list :data="strategies">
           <template #items="{item}">
             <div class="strategy-list">
-              <div
+              <router-link
                 class="strategy d-flex pb-5 mb-10 bb-1 w-100"
                 v-for="(strategy, index) in item.strategyList"
-                :key="index"
+                :key="`strategy-${index}`"
+                :to="`/articles/${strategy._id}`"
               >
-                <img class="w-40 mr-10" :src="strategy.coverImg" alt />
+                <img
+                  class="w-40 mr-10"
+                  v-lazy="strategy.coverImg"
+                  data-lazy="true"
+                  alt
+                />
                 <div class="strategy-info bfc d-flex flex-column jc-between">
                   <p class="text-ellipsis-1 fs-15">{{ strategy.title }}</p>
                   <p class="fs-12 text-gray-4 text-ellipsis-2">
@@ -159,7 +176,7 @@
                     strategy.createdAt.slice(5, 10)
                   }}</span>
                 </div>
-              </div>
+              </router-link>
             </div>
           </template>
         </view-list>
@@ -305,11 +322,18 @@ export default {
 
 .card {
   padding: 0 0.34rem;
+  &.card-news {
+    a {
+      line-height: 0.38rem;
+    }
+  }
+
   &.card-hero {
     .hero-list {
       margin: 0 -0.16rem;
       .hero {
         padding: 0 0.14rem;
+        height: 1.74rem;
         h3 {
           padding: 0.02rem 0 0.1rem 0;
         }

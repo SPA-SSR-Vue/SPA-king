@@ -46,5 +46,11 @@ body {
   z-index: 99;
 }
 
+.fixed {
+  position: fixed;
+  top: 0;
+  z-index: 999;
+}
+
 @import "./sprite";
 @import "./plugins";

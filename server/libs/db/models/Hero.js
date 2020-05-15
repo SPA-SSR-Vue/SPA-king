@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
-const heroSchema = new mongoose.Schema(
+const schema = new mongoose.Schema(
   {
+    isHot: { type: Boolean },
     title: { type: String },
     name: { type: String },
     avatar: { type: String },
@@ -46,4 +47,4 @@ const heroSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Hero", heroSchema, "heroes");
+module.exports = mongoose.model("Hero", schema, "heroes");

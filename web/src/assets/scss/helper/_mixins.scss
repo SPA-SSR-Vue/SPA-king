@@ -33,3 +33,11 @@
     transform: $transform;
   }
 }
+
+@mixin bgImg($w, $h, $url) {
+  display: inline-block;
+  width: $w;
+  height: $h;
+  background: url($url) no-repeat center;
+  background-size: contain;
+}

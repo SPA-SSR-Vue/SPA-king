@@ -23,6 +23,9 @@
                   ></el-option>
                 </el-select>
               </el-form-item>
+              <el-form-item label="推荐/热门">
+                <el-switch v-model="model.ishot">是否推荐</el-switch>
+              </el-form-item>
               <el-form-item label="称号">
                 <el-input v-model="model.title" style="width: 80%"></el-input>
               </el-form-item>
@@ -193,10 +196,7 @@
                     :value="hero._id"
                   ></el-option>
                 </el-select>
-                <el-input
-                  v-model="restrainer.desc"
-                  type="textarea"
-                ></el-input>
+                <el-input v-model="restrainer.desc" type="textarea"></el-input>
               </el-col>
             </el-row>
           </el-form-item>

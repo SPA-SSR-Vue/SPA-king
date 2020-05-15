@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const epigraphSchema = new mongoose.Schema(
+const schema = new mongoose.Schema(
   {
     name: { type: String },
     icon: { type: String },
@@ -9,4 +9,4 @@ const epigraphSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Epigraph", epigraphSchema, "epigraphs");
+module.exports = mongoose.model("Epigraph", schema, "epigraphs");

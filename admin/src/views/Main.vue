@@ -67,6 +67,13 @@ export default {
                   { name: "文章列表", path: "/articles/list" },
                 ],
               },
+              {
+                title: "视频",
+                items: [
+                  { name: "新建视频", path: "/videos/create" },
+                  { name: "视频列表", path: "/videos/list" },
+                ],
+              },
 
               {
                 title: "广告",

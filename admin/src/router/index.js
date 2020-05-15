@@ -12,6 +12,9 @@ import BannerList from "./../views/Banner/BannerList.vue";
 import ArticleEdit from "./../views/Article/ArticleEdit.vue";
 import ArticleList from "./../views/Article/ArticleList.vue";
 
+import VideoEdit from "./../views/Video/VideoEdit.vue";
+import VideoList from "./../views/Video/VideoList.vue";
+
 import HeroEdit from "./../views/Hero/HeroEdit.vue";
 import HeroList from "./../views/Hero/HeroList.vue";
 
@@ -47,6 +50,10 @@ const routes = [
       { path: "/articles/create", component: ArticleEdit },
       { path: "/articles/edit/:id", component: ArticleEdit, props: true },
       { path: "/articles/list", component: ArticleList },
+
+      { path: "/videos/create", component: VideoEdit },
+      { path: "/videos/edit/:id", component: VideoEdit, props: true },
+      { path: "/videos/list", component: VideoList },
 
       { path: "/heroes/create", component: HeroEdit },
       { path: "/heroes/edit/:id", component: HeroEdit, props: true },

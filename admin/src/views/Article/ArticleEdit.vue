@@ -35,7 +35,9 @@
           <i v-else class="el-icon-plus avatar-uploader-icon cover"></i>
         </el-upload>
       </el-form-item>
-
+      <el-form-item label="推荐/热门">
+        <el-switch v-model="model.ishot">是否推荐</el-switch>
+      </el-form-item>
       <el-form-item label="标题">
         <el-input v-model="model.title"></el-input>
       </el-form-item>
@@ -63,8 +65,6 @@ export default {
         title: "文章",
       },
       model: {
-        categories: [],
-        author: "",
         title: "",
         content: "",
         coverImg: "",

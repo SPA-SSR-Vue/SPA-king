@@ -8,6 +8,7 @@ const schema = new mongoose.Schema(
     content: { type: String },
     coverImg: { type: String },
     desc: { type: String },
+    isHot: { type: Boolean },
   },
   {
     timestamps: true,
