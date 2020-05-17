@@ -64,7 +64,7 @@ export default {
         total: 0,
         pageSizes: [10, 20, 30, 50, 100],
       },
-      queryOptions: {
+      query: {
         page: 1,
         limit: 10,
       },

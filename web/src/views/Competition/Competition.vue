@@ -41,6 +41,7 @@
                 v-if="!loading && query.page !== 5"
                 @click="loadingCatNews"
                 class="t text-center"
+                ref="load"
               >
                 上拉加载更多
               </div>
@@ -56,6 +57,8 @@
 </template>
 
 <script>
+import { throttle, isShow } from "./../../utils/index";
+
 export default {
   data() {
     return {
@@ -67,12 +70,25 @@ export default {
         page: 1,
         limit: 10,
       },
-      swiperOptions: {},
+      swiperOptions: {
+        autoHeight: true,
+      },
     };
   },
   computed: {
     swiper() {
       return this.$refs.swp.swiper;
+    },
+    loadingThrottle() {
+      const context = this;
+      return throttle(function() {
+        if (
+          context.$refs.load[context.i] &&
+          isShow(context.$refs.load[context.i])
+        ) {
+          context.loadingCatNews();
+        }
+      }, 100);
     },
   },
   methods: {
@@ -115,7 +131,6 @@ export default {
       this.loading = false;
       this.$set(this.ret, this.i, res.data);
     },
-
     async loadingCatNews() {
       const currentCat = this.ret[this.i];
 
@@ -130,19 +145,28 @@ export default {
         },
       });
       this.loading = false;
-      // for (const item of res.data.newsList) {
-      //   this.cats[this.i].newsList.push(item);
-      // }
-
-      // currentCat.newsList = [...currentCat.newsList, ...res.data.newsList];
       currentCat.newsList = currentCat.newsList.concat(res.data.newsList);
-
-      // this.this.ret[this.i].newsList.concat(res.data.newsList);
     },
   },
   async created() {
     await this.getCats();
     await this.getCatNews(this.cats[this.i]);
+  },
+
+  mounted() {
+    if (
+      this.$refs.load &&
+      this.$refs.load.length !== 0 &&
+      this.$refs.load[this.i] &&
+      isShow(this.$refs.load[this.i])
+    ) {
+      this.loadingCatNews();
+    }
+    window.addEventListener("scroll", this.loadingThrottle);
+  },
+
+  destroyed() {
+    window.removeEventListener("scroll", this.loadingThrottle);
   },
 };
 </script>

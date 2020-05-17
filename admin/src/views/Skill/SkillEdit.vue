@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3 class="form-title">
-      {{ this.isNew ? "新建" : "编辑" }}{{ resource.title }}
+      {{ isNew ? "新建" : "编辑" }}{{ resource.title }}
     </h3>
     <el-form
       :model="model"
