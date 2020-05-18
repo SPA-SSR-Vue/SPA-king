@@ -25,11 +25,12 @@
           </div>
           <div class="news" v-if="ret[i]">
             <div class="t text-center">赛事资讯</div>
-            <div class="mx-5">
+            <div class="mx-5" style="min-height:340px">
               <div
                 v-for="(news, index) in ret[i].newsList"
                 :key="`news-${index}`"
-                class="d-flex ai-center"
+                @click="$router.push(`/articles/${news._id}`)"
+                class="d-flex ai-center news-item"
               >
                 <p class="flex-1 fs-14 text-dark-4 text-ellipsis-1">
                   {{ news.title }}
@@ -38,14 +39,14 @@
               </div>
               <div v-if="loading" class="t text-center">正在加载...</div>
               <div
-                v-if="!loading && query.page !== 5"
+                v-else-if="query.page !== 5"
                 @click="loadingCatNews"
                 class="t text-center"
                 ref="load"
               >
                 上拉加载更多
               </div>
-              <div v-if="query.page === 5" class="t text-center">
+              <div v-else class="t text-center">
                 已显示全部内容
               </div>
             </div>
@@ -88,7 +89,7 @@ export default {
         ) {
           context.loadingCatNews();
         }
-      }, 100);
+      }, 50);
     },
   },
   methods: {
@@ -99,6 +100,9 @@ export default {
 
     slideChange() {
       this.i = this.swiper.realIndex;
+      window.scrollTo({
+        top: 0,
+      });
       if (!this.ret[this.i]) {
         this.getCatNews(this.cats[this.i]);
       }
@@ -128,6 +132,7 @@ export default {
           query: this.query,
         },
       });
+
       this.loading = false;
       this.$set(this.ret, this.i, res.data);
     },
@@ -144,24 +149,27 @@ export default {
           query: this.query,
         },
       });
+      if (res.data.newsList.length === 0) {
+        this.query.page = 5;
+      }
       this.loading = false;
       currentCat.newsList = currentCat.newsList.concat(res.data.newsList);
     },
   },
   async created() {
     await this.getCats();
-    await this.getCatNews(this.cats[this.i]);
+    this.getCatNews(this.cats[this.i]);
   },
 
   mounted() {
-    if (
-      this.$refs.load &&
-      this.$refs.load.length !== 0 &&
-      this.$refs.load[this.i] &&
-      isShow(this.$refs.load[this.i])
-    ) {
-      this.loadingCatNews();
-    }
+    // if (
+    //   this.$refs.load &&
+    //   this.$refs.load.length !== 0 &&
+    //   this.$refs.load[this.i] &&
+    //   isShow(this.$refs.load[this.i])
+    // ) {
+    //   this.loadingCatNews();
+    // }
     window.addEventListener("scroll", this.loadingThrottle);
   },
 
@@ -193,11 +201,21 @@ export default {
         border-radius: 1rem;
       }
     }
+    .banner {
+      height: 4.2rem;
+    }
+
     img {
       width: 100%;
     }
 
     .news {
+      // min-height: 380px;
+      // max-width: 4000px;
+      // .news-item {
+      //   height: 0.6rem;
+      // }
+
       p {
         line-height: 0.6rem;
       }
