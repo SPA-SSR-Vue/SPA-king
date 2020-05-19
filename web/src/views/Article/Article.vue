@@ -1,7 +1,7 @@
 <template>
   <div class="news">
     <div class="news-title d-flex ai-center px-5 mb-5">
-      <span class="icon icon-back"></span>
+      <span @click="$router.go(-1)" class="icon icon-back"></span>
       <p class="flex-1 text-blue fs-14 fw-600 ml-10 text-ellipsis-1">
         {{ news.title }}
       </p>

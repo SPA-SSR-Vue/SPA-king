@@ -1,8 +1,11 @@
 module.exports = app => {
   const express = require("express");
   const router = express.Router({ mergeParams: true });
+  const mongoose = require("mongoose");
+
   const Category = require("../../../libs/db/models/Category");
   const Hero = require("../../../libs/db/models/Hero");
+  const Skill = require("../../../libs/db/models/Skill");
 
   router.get("/", async (req, res) => {
     let { category = "" } = req.query;
@@ -25,12 +28,23 @@ module.exports = app => {
       },
     ]);
 
+    // heroes = JSON.parse(JSON.stringify(heroes)).map(item => {
+    //   item.heroList.map(hero => ({
+    //     name: hero.name,
+    //     avatar: hero.avatar,
+    //   }));
+    //   return item;
+    // });
+
     let hotHeroList = await Hero.aggregate([
       {
-        $match: { categories: { $in: childCat } },
+        $match: { isHot: true },
       },
       {
-        $sample: { size: 10 },
+        $limit: 10,
+      },
+      {
+        $sort: { updatedAt: -1 },
       },
       {
         $lookup: {
@@ -53,6 +67,27 @@ module.exports = app => {
       success: true,
       message: "请求成功",
       data: items,
+    });
+  });
+
+  router.get("/:id", async (req, res) => {
+    const { id } = req.params;
+    const hero = await Hero.findById(id).populate(
+      "categories items1 items2 skillSug.major skillSug.minor skillSug.summoners partners.hero controllers.hero restrainers.hero"
+    );
+
+    const skills = await Skill.find({
+      hero: new mongoose.Types.ObjectId(id),
+    });
+
+    const item = JSON.parse(JSON.stringify(hero));
+    const s = JSON.parse(JSON.stringify(skills));
+
+    item.skills = s;
+
+    res.send({
+      code: 0,
+      data: item,
     });
   });
 

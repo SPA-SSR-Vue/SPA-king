@@ -39,10 +39,13 @@ module.exports = app => {
 
         let hotNewsList = await Article.aggregate([
           {
-            $match: { categories: { $in: childCat } },
+            $match: { isHot: true },
           },
           {
-            $sample: { size: 5 },
+            $sort: { createdAt: 1 },
+          },
+          {
+            $limit: 5,
           },
           {
             $lookup: {
@@ -58,7 +61,7 @@ module.exports = app => {
           name: "热门",
           newsList: hotNewsList,
         });
-
+        
         items = news.map((item, index) => {
           item.newsList.map((n, i) => {
             n.category =

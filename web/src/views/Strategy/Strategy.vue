@@ -15,12 +15,19 @@
       </swiper>
     </div>
     <!-- end of strategy banner swiper -->
+
+    <!-- start of strategyList -->
+    <view-strategy-card></view-strategy-card>
+    <!-- end of strategyList -->
   </div>
 </template>
 
 <script>
+import ViewStrategyCard from "./../../components/ViewStrategyCard";
+
 export default {
   name: "ViewStrategy",
+  components: { ViewStrategyCard },
   data() {
     return {
       strategyBanner: [

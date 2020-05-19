@@ -5,6 +5,7 @@ const schema = new mongoose.Schema(
     title: { type: String },
     name: { type: String },
     avatar: { type: String },
+    coverImg: { type: String },
     categories: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Category" }],
     comment: {
       difficult: { type: Number },
@@ -12,11 +13,11 @@ const schema = new mongoose.Schema(
       attack: { type: Number },
       survive: { type: Number },
     },
-    // skillSuggestion: {
-    //   major: { type: mongoose.SchemaTypes.ObjectId, ref: 'Skill' },
-    //   minor: { type: mongoose.SchemaTypes.ObjectId, ref: 'Skill' },
-    //   summonerSkills: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Skill' }],
-    // },
+    skillSug: {
+      major: { type: mongoose.SchemaTypes.ObjectId, ref: "Skill" },
+      minor: { type: mongoose.SchemaTypes.ObjectId, ref: "Skill" },
+      summoners: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Skill" }],
+    },
     items1: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Item" }],
     items2: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Item" }],
     epigraphs: [{ type: mongoose.SchemaTypes.ObjectId, ref: "Epigraph" }],

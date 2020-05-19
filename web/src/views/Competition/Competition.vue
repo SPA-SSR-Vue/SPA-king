@@ -35,7 +35,9 @@
                 <p class="flex-1 fs-14 text-dark-4 text-ellipsis-1">
                   {{ news.title }}
                 </p>
-                <span class="fs-12 text-gray-3">{{ news.createdAt }}</span>
+                <span class="fs-12 text-gray-3">{{
+                  news.createdAt | day("MM/DD")
+                }}</span>
               </div>
               <div v-if="loading" class="t text-center">正在加载...</div>
               <div

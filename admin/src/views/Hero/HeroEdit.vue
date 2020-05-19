@@ -24,7 +24,7 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="推荐/热门">
-                <el-switch v-model="model.ishot">是否推荐</el-switch>
+                <el-switch v-model="model.isHot">是否推荐</el-switch>
               </el-form-item>
               <el-form-item label="称号">
                 <el-input v-model="model.title" style="width: 80%"></el-input>
@@ -41,6 +41,22 @@
                   :on-success="res => $set(model, 'avatar', res.url)"
                 >
                   <img v-if="model.avatar" :src="model.avatar" class="avatar" />
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+              </el-form-item>
+              <el-form-item label="封面图">
+                <el-upload
+                  class="avatar-uploader"
+                  :headers="getAuthHeaders()"
+                  :action="uploadUrl"
+                  :show-file-list="false"
+                  :on-success="res => $set(model, 'coverImg', res.url)"
+                >
+                  <img
+                    v-if="model.coverImg"
+                    :src="model.coverImg"
+                    class="avatar"
+                  />
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
               </el-form-item>
@@ -111,7 +127,46 @@
             </el-col>
           </el-row>
         </el-tab-pane>
-        <el-tab-pane label="技能编辑" name="2"></el-tab-pane>
+        <el-tab-pane label="加点推荐" name="2">
+          <el-form-item label="主升" label-width="100px">
+            <el-select v-model="model.skillSug.major" placeholder="">
+              <el-option
+                v-for="item in skills"
+                :key="item._id"
+                :label="item.name"
+                :value="item._id"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="副升" label-width="100px">
+            <el-select v-model="model.skillSug.minor" placeholder="">
+              <el-option
+                v-for="item in skills"
+                :key="item._id"
+                :label="item.name"
+                :value="item._id"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="召唤师技能" label-width="100px">
+            <el-select
+              v-model="model.skillSug.summoners"
+              multiple
+              filterable
+              placeholder=""
+            >
+              <el-option
+                v-for="item in skills"
+                :key="item._id"
+                :label="item.name"
+                :value="item._id"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-tab-pane>
         <el-tab-pane label="英雄相关" name="3">
           <el-form-item label="使用技巧">
             <el-input v-model="model.usageTips" type="textarea"></el-input>
@@ -144,7 +199,9 @@
                     :value="hero._id"
                   ></el-option>
                 </el-select>
-                <el-input v-model="partner.desc" type="textarea"></el-input>
+                <el-form-item label=""
+                  ><el-input v-model="partner.desc" type="textarea"></el-input>
+                </el-form-item>
               </el-col>
             </el-row>
           </el-form-item>
@@ -226,15 +283,22 @@ export default {
       model: {
         name: "",
         avatar: "",
+        coverImg: "",
         comment: { difficult: 0 },
         partners: [],
         controllers: [],
         restrainers: [],
+        skillSug: {
+          major: "",
+          minor: "",
+          summoners: [],
+        },
       },
       categories: [],
       items: [],
       epigraphs: [],
       heroes: [],
+      skills: [],
       tab: {
         name: "1",
       },
@@ -270,6 +334,11 @@ export default {
       const res = await this.$http.get("/rest/heroes");
       this.heroes = res.data;
     },
+
+    async fetchSkills() {
+      const res = await this.$http.get("/rest/skills");
+      this.skills = res.data;
+    },
   },
 
   created() {
@@ -278,6 +347,7 @@ export default {
     this.fetchItems();
     this.fetchEpigraphs();
     this.fetchHeroes();
+    this.fetchSkills();
   },
 };
 </script>

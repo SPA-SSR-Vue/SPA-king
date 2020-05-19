@@ -67,7 +67,7 @@
               <span class="fs-14 text-blue-1">[{{ news.category }}]</span>
               <span class="mx-2">|</span>
               <p class="flex-1 fs-14 text-ellipsis-1">{{ news.title }}</p>
-              <span class="fs-12">{{ news.createdAt.slice(5, 10) }}</span>
+              <span class="fs-12">{{ news.createdAt | day("MM/DD") }}</span>
             </router-link>
           </template>
         </view-list>
@@ -109,7 +109,7 @@
     <!-- end of heroList -->
 
     <!-- start of videoList -->
-    <view-card class="card-video" icon1="videos" title="精彩视频">
+    <view-card class="card-video" icon1="video" title="精彩视频">
       <template #body>
         <view-list :data="videos">
           <template #items="{item}">
@@ -131,7 +131,7 @@
                     <span class="sprite sprite-video"></span>
                     <span class="flex-1 fs-10 text-gray-4">{{ 10 }}万</span>
                     <span class="fs-10 text-gray-4">{{
-                      video.createdAt.slice(5, 10)
+                      video.createdAt | day("MM-DD")
                     }}</span>
                   </div>
                 </router-link>
@@ -150,7 +150,7 @@
     <!-- end of videoList -->
 
     <!-- start of strategyList -->
-    <view-card class="card-strategy" icon1="strategy" title="图文攻略">
+    <!-- <view-card class="card-strategy" icon1="strategy" title="图文攻略">
       <template #body>
         <view-list :data="strategies">
           <template #items="{item}">
@@ -181,7 +181,9 @@
           </template>
         </view-list>
       </template>
-    </view-card>
+    </view-card> -->
+
+    <view-strategy-card></view-strategy-card>
     <!-- end of strategyList -->
   </div>
 </template>
@@ -189,9 +191,11 @@
 <script>
 import axios from "axios";
 import { getBanner, getArticles, getResources } from "./../../api";
+import ViewStrategyCard from "./../../components/ViewStrategyCard";
 
 export default {
   name: "ViewHome",
+  components: { ViewStrategyCard },
   data() {
     return {
       isShow: false,

@@ -9,31 +9,46 @@
       ref="form"
       label-width="80px"
     >
-      <el-form-item label="所属英雄">
-        <el-select v-model="model.hero" multiple filterable>
-          <el-option
-            v-for="hero in heroes"
-            :key="hero._id"
-            :label="hero.name"
-            :value="hero._id"
-          ></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="名字">
-        <el-input v-model="model.name"></el-input>
-      </el-form-item>
-      <el-form-item label="图标">
-        <el-upload
-          class="avatar-uploader"
-          :headers="getAuthHeaders()"
-          :action="uploadUrl"
-          :show-file-list="false"
-          :on-success="res => $set(model, 'icon', res.url)"
-        >
-          <img v-if="model.icon" :src="model.icon" class="avatar" />
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
-      </el-form-item>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="所属英雄">
+            <el-select v-model="model.hero" filterable>
+              <el-option
+                v-for="hero in heroes"
+                :key="hero._id"
+                :label="hero.name"
+                :value="hero._id"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="图标">
+            <el-upload
+              class="avatar-uploader"
+              :headers="getAuthHeaders()"
+              :action="uploadUrl"
+              :show-file-list="false"
+              :on-success="res => $set(model, 'icon', res.url)"
+            >
+              <img v-if="model.icon" :src="model.icon" class="avatar" />
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12"
+          ><el-form-item label="名字">
+            <el-input v-model="model.name"></el-input>
+          </el-form-item>
+          <el-form-item label="冷却值">
+            <el-input v-model="model.coolDown"></el-input>
+          </el-form-item>
+          <el-form-item label="消耗值">
+            <el-input v-model="model.expend"></el-input>
+          </el-form-item>
+          <el-form-item label="描述">
+            <el-input v-model="model.desc" type="textarea"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
 
       <el-form-item>
         <el-button type="primary" native-type="submit">保存</el-button>
