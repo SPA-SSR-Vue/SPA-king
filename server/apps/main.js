@@ -9,6 +9,9 @@ app.set("SECRET", "0ci14s50fn23u7f6t39ui6ht4ng90tu55vs60cd7b7n8mb");
 // static file
 app.use("/uploads", express.static(__dirname + "/../public/uploads"));
 
+app.use("/", express.static(__dirname + "/../web"));
+app.use("/admin", express.static(__dirname + "/../admin"));
+
 // db
 require("./../libs/db/db")(app);
 
